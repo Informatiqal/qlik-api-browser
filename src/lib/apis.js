@@ -1,4 +1,4 @@
-import * as saas from '../OpenAPI/saas.json';
+import * as saas from '../OpenAPI/saas';
 import * as repo from '../OpenAPI/repo.json';
 import * as proxy from '../OpenAPI/proxy.json';
 

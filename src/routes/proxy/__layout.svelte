@@ -15,7 +15,7 @@
 
 <script>
 	import { onMount, tick } from 'svelte';
-	import { goto, invalidate } from '$app/navigation';
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	import Sidebar from '../../components/Sidebar.svelte';
@@ -25,13 +25,20 @@
 	export let ninjaData;
 	export let method;
 
-	// console.log(ninjaData, method);
+	beforeNavigate(() => {
+		loaded = false;
+	});
+
+	afterNavigate(() => {
+		loaded = true;
+	});
 
 	let NinjaKeys;
 	let ninja;
 	let ninjaKeys;
 	let methodData = undefined;
 	let urlPath = '';
+	let loaded = false;
 
 	$: if (ninjaKeys) {
 		ninja = ninjaKeys;
@@ -46,6 +53,7 @@
 		// await tick();
 
 		if (!method) ninja.open();
+		if (method) loaded = true;
 	});
 
 	// $: console.log(ninjaKeys?.visible);
@@ -93,7 +101,9 @@
 {ninja} -->
 <div class="test">
 	<div class="header">
-		<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{#if loaded != false}
+			<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{/if}
 		<!-- {/if} -->
 	</div>
 
@@ -109,7 +119,7 @@
 	{/if}
 
 	<!-- {#if $page.routeId == 'repository'} -->
-	{#if $page.routeId != 'proxy'}
+	{#if $page.routeId != 'proxy' && loaded != false}
 		<div class="slot">
 			<slot />
 		</div>

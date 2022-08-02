@@ -15,7 +15,7 @@
 
 <script>
 	import { onMount, tick } from 'svelte';
-	import { goto } from '$app/navigation';
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	import MethodMainHeader from '../../components/MethodMainHeader.svelte';
@@ -24,11 +24,20 @@
 	export let ninjaData;
 	export let method;
 
+	beforeNavigate(() => {
+		loaded = false;
+	});
+
+	afterNavigate(() => {
+		loaded = true;
+	});
+
 	let NinjaKeys;
 	let ninja;
 	let ninjaKeys;
 	let methodData = undefined;
 	let urlPath = '';
+	let loaded = false;
 
 	$: if (ninjaKeys) {
 		ninja = ninjaKeys;
@@ -45,6 +54,7 @@
 		// console.log(ninjaData);
 
 		if (!method) ninja.open();
+		if (method) loaded = true;
 	});
 
 	// let transition = true;
@@ -63,9 +73,9 @@
 			// transition = false;
 			ninjaKeys.close();
 			win.location = `/saas/${urlPath.replace(/\//g, '_')}`;
+			// goto(`/saas/${urlPath.replace(/\//g, '_')}/`, { preserveState: false });
 			//.replace('{', '+').replace('}', '=')}`;
 			// console.log(encodeURI(urlPath));
-			// goto(`/saas/${urlPath.replace(/\//g, '_')}`);
 			// window.href = `/saas/${urlPath.replace(/\//g, '_')}`;
 		}
 
@@ -85,7 +95,9 @@
 
 <div class="test">
 	<div class="header">
-		<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{#if loaded != false}
+			<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{/if}
 	</div>
 
 	{#if $page.routeId == 'saas'}
@@ -99,7 +111,7 @@
 		</placeholder>
 	{/if}
 
-	{#if $page.routeId != 'saas'}
+	{#if $page.routeId != 'saas' && loaded != false}
 		<div class="slot">
 			<slot />
 		</div>

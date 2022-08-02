@@ -117,26 +117,63 @@
 	</div>
 
 	<div class="description" title={definition.description}>
-		{definition.description ? definition.description : '-'}
+		<!-- <div class="text"> -->
+		{definition.description ? definition.description : ''}
+		<!-- </div> -->
 	</div>
 </parameter>
 
 <style>
 	parameter {
 		display: grid;
-		grid-template-columns: 2fr 2fr 2fr 5fr;
+		grid-template-columns: 2fr 2fr 2fr 4fr;
+		height: 30px;
+		padding: 5px;
+		/* gap: 20px; */
 	}
+
+	/* parameter > div { */
+	/* display: flex; */
+	/* align-items: center; */
+	/* } */
 
 	parameter > div:nth-child(1) {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		display: flex;
+		align-items: center;
+	}
+
+	parameter > div:nth-child(2) {
+		font-style: italic;
+		display: flex;
+		justify-content: center;
+		display: flex;
+		align-items: center;
+		/* font-size: 14px; */
+		/* white-space: nowrap; */
+		/* text-overflow: ellipsis; */
+		/* overflow: hidden; */
 	}
 
 	parameter > div:nth-child(3) {
-		white-space: nowrap;
+		/* white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		font-style: italic;
+		display: inline-block !important; */
+		/* display: flex; */
+		/* justify-content: center; */
+		font-style: italic;
+		display: flex;
+		justify-content: center;
+		display: flex;
+		align-items: center;
+	}
+
+	parameter:hover {
+		background-color: #3563ae;
 	}
 
 	.required > span {
@@ -166,5 +203,7 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		/* display: flex; */
+		/* align-items: center; */
 	}
 </style>

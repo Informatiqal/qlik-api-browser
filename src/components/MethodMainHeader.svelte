@@ -24,7 +24,7 @@
 	let method = $page.params.method
 		? `/${$page.params.method.replace(/_/g, '/').replace(/\(/g, '{').replace(/\)/g, '}')}`
 		: '';
-	let apiArea = $page.routeId.split('/')[0];
+	// let apiArea = $page.routeId.split('/')[0];
 </script>
 
 <main-header>

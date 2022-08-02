@@ -19,9 +19,9 @@
 
 <style>
 	query-params {
-		min-width: 200px;
-		max-width: 50%;
 		flex-grow: 1;
+		flex-basis: 0;
+		min-width: 0;
 	}
 
 	query-params > div:nth-child(1) {

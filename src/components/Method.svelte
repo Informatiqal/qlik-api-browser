@@ -3,8 +3,6 @@
 	// import UrlPath from './UrlPath.svelte';
 	export let data;
 	// export let restMethod;
-
-	// console.log(data);
 </script>
 
 <methods>

@@ -2,6 +2,7 @@
 	import Parameter from './Parameter.svelte';
 
 	export let pathParameters;
+	console.log(pathParameters);
 </script>
 
 <path-params>
@@ -19,9 +20,9 @@
 
 <style>
 	path-params {
-		min-width: 200px;
-		max-width: 50%;
 		flex-grow: 1;
+		flex-basis: 0;
+		min-width: 0;
 	}
 
 	path-params > div:nth-child(1) {

@@ -15,7 +15,7 @@
 
 <script>
 	import { onMount, tick } from 'svelte';
-	import { goto } from '$app/navigation';
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	// import { openModal } from 'svelte-modals';
@@ -31,11 +31,20 @@
 	export let ninjaData;
 	export let method;
 
+	beforeNavigate(() => {
+		loaded = false;
+	});
+
+	afterNavigate(() => {
+		loaded = true;
+	});
+
 	let NinjaKeys;
 	let ninja;
 	let ninjaKeys;
 	let methodData = undefined;
 	let urlPath = '';
+	let loaded = false;
 
 	$: if (ninjaKeys) {
 		ninja = ninjaKeys;
@@ -52,6 +61,7 @@
 		// console.log(ninjaData);
 
 		if (!method) ninja.open();
+		if (method) loaded = true;
 	});
 
 	// let transition = true;
@@ -86,7 +96,9 @@
 
 <div class="test">
 	<div class="header">
-		<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{#if loaded != false}
+			<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{/if}
 	</div>
 
 	{#if $page.routeId == 'repository'}
@@ -103,7 +115,7 @@
 	{/if}
 
 	<!-- {#if $page.routeId == 'repository'} -->
-	{#if $page.routeId != 'repository'}
+	{#if $page.routeId != 'repository' && loaded != false}
 		<div class="slot">
 			<slot />
 		</div>

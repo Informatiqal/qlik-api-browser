@@ -45,7 +45,7 @@
 		</div>
 
 		<div class="type">
-			{definition.schema?.type ? definition.schema.type : ''}
+			{definition.type ? definition.type : definition.schema?.type ? definition.schema.type : ''}
 		</div>
 	{/if}
 

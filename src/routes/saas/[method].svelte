@@ -5,7 +5,7 @@
 		const realMethodName = params.method.replace(/_/g, '/').replace(/%7B/, '{').replace(/%7D/, '}');
 		//.replace(/\+/g, '{').replace(/=/g, '}');
 
-		console.log(realMethodName);
+		// console.log(realMethodName);
 		const data = await api.methodsData(realMethodName, 'saas');
 
 		return {
@@ -20,6 +20,9 @@
 <script>
 	import Method from '../../components/Method.svelte';
 	export let data;
+
+	// console.log(data);
+	// $: d = data;
 	// export let restMethod;
 </script>
 

@@ -62,96 +62,36 @@
 
 				{#if definition.properties}
 					<properties>
-						<property>
-							<div class="title">NAME</div>
-							<div class="title">TYPE</div>
-							<div class="title">FORMAT</div>
-							<div class="title">DESCRIPTION</div>
-						</property>
-						{#each Object.entries(properties) as property}
-							<ParameterInModal
-								definition={{ name: property[0], ...property[1] }}
-								required={sortOrder.indexOf(property[0]) > -1 ? true : false}
-							/>
-							<!-- <property>
-								{#if definition.required}
-									<div class:required={definition.required.indexOf(property[0]) > -1}>
-										{property[0]}
-										{#if definition.required.indexOf(property[0]) > -1}
-											<span>*</span>
-										{/if}
-									</div>
-								{:else}
-									<div>
-										{property[0]}
-									</div>
-								{/if}
-
-								<div>
-									{#if property[1].type == 'array'}
-										array[]
-									{:else if property[1].hasOwnProperty('enum')}
-
-									{:else if property[1].type}
-										{property[1].type}
-									{:else}
-										object
-									{/if}
-								</div>
-
-								{#if property[1].format}
-									<div>{property[1].format}</div>
-								{/if}
-
-								{#if property[1].items && !property[1].items['$ref']}
-									<div>{property[1].items.type}</div>
-								{/if}
-
-								{#if property[1].items && property[1].items['$ref']}
-									<div
-										class="definition"
-										on:click={() =>
-											onOpenAnother(property[1].items['$ref'].replace('#/components/schemas/', ''))}
-									>
-										{property[1].items['$ref'].replace('#/components/schemas/', '')}
-									</div>
-								{/if}
-
-								{#if !property[1].format && !property[1].items}
-									{#if property[1]['$ref']}
-										<div
-											class="definition"
-											on:click={() =>
-												onOpenAnother(property[1]['$ref'].replace('#/components/schemas/', ''))}
-										>
-											{property[1]['$ref'].replace('#/components/schemas/', '')}
-										</div>
-									{:else}
-										<div>-</div>
-									{/if}
-								{/if}
-
-								{#if property[1].description}
-									<div title={property[1].description} class="description">
-										{property[1].description}
-									</div>
-								{:else}
-									<div />
-								{/if}
-							</property> -->
-						{/each}
+						<properties-header>
+							<div>
+								<div class="title">NAME</div>
+								<div class="title">TYPE</div>
+								<div class="title">FORMAT</div>
+								<div class="title">DESCRIPTION</div>
+							</div>
+						</properties-header>
+						<properties-content>
+							{#each Object.entries(properties) as property}
+								<ParameterInModal
+									definition={{ name: property[0], ...property[1] }}
+									required={sortOrder.indexOf(property[0]) > -1 ? true : false}
+								/>
+							{/each}
+						</properties-content>
 					</properties>
 				{/if}
 
 				{#if definition.type == 'array'}
 					<properties>
-						<property>
+						<properties-header>
 							<div class="title">NAME</div>
 							<div class="title">TYPE</div>
 							<div class="title">FORMAT</div>
 							<div class="title">DESCRIPTION</div>
-						</property>
-						<ParameterInModal definition={{ name: refName, ...definition }} />
+						</properties-header>
+						<properties-content>
+							<ParameterInModal definition={{ name: refName, ...definition }} />
+						</properties-content>
 					</properties>
 				{/if}
 
@@ -186,11 +126,13 @@
 		margin-top: var(--modal-count, '100px');
 		margin-left: var(--modal-count, '0px');
 		margin-right: var(--modal-count, '0px');
-		max-height: 80%;
 		overflow: auto;
 		max-width: 90%;
 		min-width: 50%;
 		overflow: hidden;
+		height: 500px;
+		/* height: min-max(); */
+		/* max-height: 80%; */
 	}
 
 	.modal__close {
@@ -204,18 +146,23 @@
 	definition {
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: auto auto;
+		grid-template-rows: 60px auto;
 		height: 100%;
 	}
 
 	header {
 		grid-column: 1;
 		grid-row: 1;
-		height: 40px;
+		height: 60px;
 		background-color: #3563ae;
 		display: flex;
 		flex-direction: row;
 		font-weight: bold;
+	}
+
+	header > div {
+		display: flex;
+		align-items: center;
 	}
 
 	name {
@@ -233,23 +180,39 @@
 		padding: 1em;
 		display: flex;
 		flex-direction: column;
-		gap: 5px;
+		gap: 15px;
 		overflow: auto;
 	}
 
-	property {
+	properties-header > div {
 		/* display: flex; */
 		display: grid;
-		grid-template-columns: 2fr 2fr 2fr 5fr;
+		grid-template-columns: 2fr 2fr 2fr 4fr;
+		letter-spacing: 5px;
+		background-color: #2c6255;
+		height: 40px;
 	}
 
-	property > div:first-of-type {
+	properties-header > div > div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	properties-content {
+		overflow: auto;
+		display: grid;
+		grid-template-rows: auto;
+		/* gap: 10px; */
+	}
+
+	/* property > div:first-of-type {
 		padding-right: 10px;
 	}
 
 	property > div {
 		flex: 1;
-	}
+	} */
 
 	/* .required > span {
 		color: red;
@@ -281,9 +244,9 @@
 		font-weight: bold;
 	}
 
-	properties property:first-of-type {
+	/* properties property:first-of-type {
 		border-bottom: 1px solid;
-	}
+	} */
 
 	/* .description {
 		white-space: nowrap;
