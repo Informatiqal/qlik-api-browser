@@ -4,6 +4,8 @@
 
 	export let isOpen;
 	export let definition;
+
+	// console.log(definition);
 </script>
 
 {#if isOpen}
@@ -12,13 +14,21 @@
 			<definition>
 				<header>
 					<name>
-						{definition.name}
+						{definition?.name}
 					</name>
 					<div class="modal__close" on:click={closeModal} title="Close">×</div>
 				</header>
 
-				{#if definition.schema.enum}
+				{#if definition.schema?.enum}
 					<EnumInModal data={definition.schema} />
+				{/if}
+
+				{#if definition.schema?.items?.enum}
+					<EnumInModal data={definition.schema.items} />
+				{/if}
+
+				{#if definition.enum}
+					<EnumInModal data={definition} />
 				{/if}
 			</definition>
 		</div>
@@ -29,7 +39,9 @@
 	definition {
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: auto auto;
+		grid-template-rows: 40px auto;
+		overflow: hidden;
+		height: 100%;
 	}
 
 	header {
@@ -81,9 +93,10 @@
 		margin-top: 100px;
 		margin-left: 0px;
 		margin-right: 0px;
-		max-height: 80%;
-		overflow: auto;
+		/* max-height: calc(30%, 500px); */
+		overflow: hidden;
 		max-width: 90%;
 		min-width: 50%;
+		height: 500px;
 	}
 </style>

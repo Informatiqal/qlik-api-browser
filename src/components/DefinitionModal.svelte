@@ -26,6 +26,8 @@
 	if ($page.routeId.split('/')[0] == 'repository') definition = repoDefinitions[ref];
 	if ($page.routeId.split('/')[0] == 'proxy') definition = proxyDefinitions[ref];
 
+	// console.log(definition);
+
 	const sortOrder = definition.required ? definition.required : [];
 
 	const properties = definition.properties
@@ -84,19 +86,50 @@
 				{#if definition.type == 'array'}
 					<properties>
 						<properties-header>
-							<div class="title">NAME</div>
-							<div class="title">TYPE</div>
-							<div class="title">FORMAT</div>
-							<div class="title">DESCRIPTION</div>
+							<div>
+								<div class="title">NAME</div>
+								<div class="title">TYPE</div>
+								<div class="title">FORMAT</div>
+								<div class="title">DESCRIPTION</div>
+							</div>
 						</properties-header>
 						<properties-content>
-							<ParameterInModal definition={{ name: refName, ...definition }} />
+							<ParameterInModal definition={{ name: refName, ...definition }} required={false} />
 						</properties-content>
 					</properties>
 				{/if}
 
 				{#if definition.enum}
 					<EnumInModal data={definition} />
+				{/if}
+
+				{#if definition.allOf}
+					<properties>
+						<properties-header>
+							<div>
+								<div class="title">NAME</div>
+								<div class="title">TYPE</div>
+								<div class="title">FORMAT</div>
+								<div class="title">DESCRIPTION</div>
+							</div>
+						</properties-header>
+						<properties-content>
+							{#each definition.allOf as def}
+								{#if def['$ref']}
+									<ParameterInModal definition={{ name: def['$ref'].split('/').at(-1), ...def }} />
+								{/if}
+
+								{#if def.type && def.type == 'object'}
+									{#each Object.entries(def.properties) as property}
+										<ParameterInModal
+											definition={{ name: property[0], ...property[1] }}
+											required={sortOrder.indexOf(property[0]) > -1 ? true : false}
+										/>
+									{/each}
+								{/if}
+							{/each}
+						</properties-content>
+					</properties>
 				{/if}
 			</definition>
 		</div>
@@ -126,11 +159,13 @@
 		margin-top: var(--modal-count, '100px');
 		margin-left: var(--modal-count, '0px');
 		margin-right: var(--modal-count, '0px');
-		overflow: auto;
+		overflow: hidden;
 		max-width: 90%;
 		min-width: 50%;
 		overflow: hidden;
-		height: 500px;
+		height: 600px;
+		overflow: hidden;
+		/* height: 100%; */
 		/* height: min-max(); */
 		/* max-height: 80%; */
 	}
@@ -147,6 +182,8 @@
 		display: grid;
 		grid-template-columns: auto;
 		grid-template-rows: 60px auto;
+		height: 100%;
+		overflow: hidden;
 		height: 100%;
 	}
 

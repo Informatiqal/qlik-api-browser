@@ -1,7 +1,7 @@
 <script>
 	import { Modals, closeModal, openModal } from 'svelte-modals';
 	function handleKeyUp(ev) {
-		console.log(ev);
+		// console.log(ev);
 	}
 </script>
 

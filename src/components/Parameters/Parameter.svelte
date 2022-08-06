@@ -7,7 +7,6 @@
 	// console.log(definition);
 
 	$: activeModal = $modals.length;
-	// $: definition = definition[0];
 
 	function handleClick() {
 		if (definition.schema?.['$ref']) {
@@ -15,10 +14,10 @@
 				ref: definition.schema['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', ''),
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 
@@ -26,10 +25,21 @@
 			openModal(EnumModal, {
 				ref: `${definition.name}`,
 				definition: definition,
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
+			});
+		}
+
+		if (definition.schema?.items?.enum) {
+			openModal(EnumModal, {
+				// ref: `${definition.name}`,
+				definition: definition
+				// modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 	}
@@ -51,12 +61,17 @@
 
 	<div
 		on:click={() => handleClick()}
-		class:definition={definition.schema?.['$ref'] || definition.schema?.enum}
+		class:definition={definition.schema?.['$ref'] ||
+			definition.schema?.enum ||
+			definition.schema?.items?.enum}
 	>
 		{definition.schema?.format ? definition.schema.format : ''}
 		{definition.schema?.enum ? 'enum' : ''}
 		{definition.schema?.['$ref']
 			? definition.schema['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', '')
+			: ''}
+		{definition.schema?.type == 'array' && definition.schema?.items.enum
+			? definition.schema?.items.type
 			: ''}
 	</div>
 </parameter>

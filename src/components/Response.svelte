@@ -21,21 +21,21 @@
 				ref: content.schema['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', ''),
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 
 		if (content.schema?.enum) {
 			openModal(EnumModal, {
-				ref: `${content.name}`,
-				definition: definition,
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				// ref: `${content.name}`,
+				definition: definition
+				// modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 	}

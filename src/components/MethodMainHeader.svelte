@@ -21,9 +21,17 @@
 		dispatch('ninjaOpen', {});
 	}
 
+	function openNinjaWithArea(area) {
+		area = area.replace(/-/g, ' ').replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+
+		dispatch('ninjaOpen', { area });
+	}
+
 	let method = $page.params.method
 		? `/${$page.params.method.replace(/_/g, '/').replace(/\(/g, '{').replace(/\)/g, '}')}`
 		: '';
+
+	console.log(method);
 	// let apiArea = $page.routeId.split('/')[0];
 </script>
 
@@ -33,19 +41,14 @@
 			<div class="home">
 				<a href="/" title="Home"> <HomeSVG /></a>
 			</div>
-			<!-- {#if apiArea == 'saas'}
-				<CloudSVG />
-			{/if}
-
-			{#if apiArea == 'repository'}
-				<RepositorySVG />
-			{/if}
-
-			{#if apiArea == 'proxy'}
-				<ProxySVG />
-			{/if} -->
 		</div>
-		<div>{method}</div>
+		<div>
+			{#if method}
+				/<span class="method-area" on:click={() => openNinjaWithArea(method.split('/')[1])}
+					>{method.split('/')[1]}</span
+				>/{method.split('/').splice(1).join('/')}
+			{/if}
+		</div>
 	</div>
 
 	<div title="Show command palette. Or press Ctrl + K" on:click={openNinja}>
@@ -74,12 +77,20 @@
 	.home {
 		width: 30px;
 	}
+
 	main-header {
 		display: grid;
 		grid-template-columns: auto 30px 30px;
 		gap: 15px;
 		height: 80px;
 		/* border-bottom: 1px solid; */
+	}
+
+	.method-area {
+		/* color: #00ff86; */
+		text-decoration: underline dotted;
+		text-underline-position: under;
+		cursor: pointer;
 	}
 
 	/* main-header > div:nth-child(1) { */

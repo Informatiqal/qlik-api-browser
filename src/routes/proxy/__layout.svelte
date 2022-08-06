@@ -84,6 +84,14 @@
 
 		return true;
 	}
+
+	function openNinja(ev) {
+		if (ev.detail.area) {
+			ninja.open({ parent: ev.detail.area });
+		} else {
+			ninja.open();
+		}
+	}
 </script>
 
 <svelte:head>
@@ -102,7 +110,7 @@
 <div class="test">
 	<div class="header">
 		{#if loaded != false}
-			<MethodMainHeader on:ninjaOpen={ninja.open()} />
+			<MethodMainHeader on:ninjaOpen={openNinja} />
 		{/if}
 		<!-- {/if} -->
 	</div>
@@ -113,7 +121,7 @@
 			<div>
 				Activate the command palette with <code>Ctrl+K</code> /
 				<code>Cmd+K</code> or click
-				<span class="link" on:click={() => ninja.open()}>HERE</span>
+				<span class="link" on:click={openNinja}>HERE</span>
 			</div>
 		</placeholder>
 	{/if}

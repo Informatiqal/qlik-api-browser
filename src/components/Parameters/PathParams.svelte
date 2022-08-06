@@ -2,7 +2,6 @@
 	import Parameter from './Parameter.svelte';
 
 	export let pathParameters;
-	console.log(pathParameters);
 </script>
 
 <path-params>

@@ -1,9 +1,12 @@
 <script>
 	import { openModal, modals } from 'svelte-modals';
 	import Modal from '../DefinitionModal.svelte';
+	import EnumModal from '../EnumModal.svelte';
 
 	export let definition;
 	export let required;
+
+	console.log(definition);
 
 	$: activeModal = $modals.length;
 
@@ -12,10 +15,10 @@
 		if (paramType == 'ref')
 			openModal(Modal, {
 				ref: definition['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', ''),
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 
 		if (paramType == 'array')
@@ -23,19 +26,30 @@
 				ref: definition.items?.['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', ''),
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 
 		if (paramType == 'enum') {
 			openModal(Modal, {
 				ref: `${definition.name}`,
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
+			});
+		}
+
+		if (paramType == 'enum1') {
+			openModal(EnumModal, {
+				// ref: undefined,
+				definition: definition
+				// modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 	}
@@ -74,6 +88,14 @@
 
 		{#if definition.schema?.enum}
 			<span class="definition">enum</span>
+		{/if}
+
+		{#if definition.format}
+			<span>{definition.format}</span>
+		{/if}
+
+		{#if definition.enum}
+			<span on:click={() => handleClick('enum1')} class="definition">enum</span>
 		{/if}
 
 		{#if definition.schema?.['$ref']}
@@ -141,7 +163,7 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
-		display: flex;
+		/* display: flex; */
 		align-items: center;
 	}
 

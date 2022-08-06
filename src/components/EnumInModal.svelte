@@ -11,7 +11,7 @@
 	{/if}
 
 	<div class="title2">Type</div>
-	<div class="value2">{data.type}</div>
+	<div class="value2">{data.type ? data.type : '-'}</div>
 
 	<div class="title1">Values</div>
 	<div class="value1">
@@ -37,6 +37,7 @@
 			'title1 value1';
 		grid-template-rows: 30px 30px auto;
 		gap: 5px;
+		overflow: hidden;
 	}
 
 	.title1 {
