@@ -8,6 +8,8 @@
 	import RepositorySVG from '../svg/Repository.svelte';
 	import ProxySVG from '../svg/Proxy.svelte';
 	import MenuSVG from '../svg/Menu.svelte';
+	import InfoSVG from '../svg/Info.svelte';
+	import CommandSVG from '../svg/Command.svelte';
 	import HomeSVG from '../svg/Home.svelte';
 
 	// export let title;
@@ -31,7 +33,7 @@
 		? `/${$page.params.method.replace(/_/g, '/').replace(/\(/g, '{').replace(/\)/g, '}')}`
 		: '';
 
-	console.log(method);
+	// console.log(method);
 	// let apiArea = $page.routeId.split('/')[0];
 </script>
 
@@ -44,16 +46,29 @@
 		</div>
 		<div>
 			{#if method}
-				/<span class="method-area" on:click={() => openNinjaWithArea(method.split('/')[1])}
-					>{method.split('/')[1]}</span
-				>/{method.split('/').splice(1).join('/')}
+				<div class="path">
+					<div title="Show command palette. Or press Ctrl + K" on:click={openNinja}>
+						<!-- <MenuSVG /> -->
+						<CommandSVG />
+					</div>
+					<div>
+						/<span class="method-area" on:click={() => openNinjaWithArea(method.split('/')[1])}
+							>{method.split('/')[1]}</span
+						>/{method.split('/').splice(1).join('/')}
+					</div>
+				</div>
 			{/if}
 		</div>
 	</div>
 
-	<div title="Show command palette. Or press Ctrl + K" on:click={openNinja}>
-		<MenuSVG />
+	<div title="About">
+		<a on:click={() => console.log(`Show info here`)}>
+			<InfoSVG />
+		</a>
 	</div>
+	<!-- <div title="Show command palette. Or press Ctrl + K" on:click={openNinja}>
+		<MenuSVG />
+	</div> -->
 	<!-- <div>
         <a href="/" title="Home"> <HomeSVG /></a>
     </div> -->
@@ -88,9 +103,23 @@
 
 	.method-area {
 		/* color: #00ff86; */
-		text-decoration: underline dotted;
+		text-decoration: underline dotted #00ff86;
 		text-underline-position: under;
 		cursor: pointer;
+	}
+
+	.path {
+		display: grid;
+		grid-template-columns: 30px auto;
+		gap: 10px;
+	}
+
+	.path > div:nth-child(1) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		fill: #00ff86;
 	}
 
 	/* main-header > div:nth-child(1) { */
