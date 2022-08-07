@@ -1,12 +1,9 @@
 <script>
 	import { Modals, closeModal, openModal } from 'svelte-modals';
-	function handleKeyUp(ev) {
-		// console.log(ev);
-	}
 </script>
 
 <Modals>
-	<div on:keyup={handleKeyUp} slot="backdrop" class="backdrop" on:click={closeModal} />
+	<div slot="backdrop" class="backdrop" on:click={closeModal} />
 </Modals>
 
 <div>

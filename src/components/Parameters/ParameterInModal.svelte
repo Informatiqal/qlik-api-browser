@@ -6,7 +6,7 @@
 	export let definition;
 	export let required;
 
-	console.log(definition);
+	// console.log(definition);
 
 	$: activeModal = $modals.length;
 

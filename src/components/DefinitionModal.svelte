@@ -41,7 +41,7 @@
 		: [];
 
 	function handleKeyUp(ev) {
-		// console.log('test');
+		if (ev.key == 'Escape') closeModal();
 	}
 
 	// function handleEnumClick(definition) {
@@ -51,9 +51,11 @@
 	// }
 </script>
 
+<svelte:window on:keydown={handleKeyUp} />
+
 {#if isOpen}
 	<div class="modal" style="--modal-count:{padding};" on:keydown={handleKeyUp}>
-		<div class="modal__content" on:keydown={handleKeyUp}>
+		<div class="modal__content">
 			<definition>
 				<header>
 					<name>
