@@ -4,10 +4,10 @@
 
 	import GithubSVG from '../svg/GitHub.svelte';
 	// import InfoSVG from '../svg/Info.svelte';
-	import CloudSVG from '../svg/Cloud.svelte';
-	import RepositorySVG from '../svg/Repository.svelte';
-	import ProxySVG from '../svg/Proxy.svelte';
-	import MenuSVG from '../svg/Menu.svelte';
+	// import CloudSVG from '../svg/Cloud.svelte';
+	// import RepositorySVG from '../svg/Repository.svelte';
+	// import ProxySVG from '../svg/Proxy.svelte';
+	// import MenuSVG from '../svg/Menu.svelte';
 	import InfoSVG from '../svg/Info.svelte';
 	import CommandSVG from '../svg/Command.svelte';
 	import HomeSVG from '../svg/Home.svelte';
@@ -62,7 +62,7 @@
 	</div>
 
 	<div title="About">
-		<a on:click={() => console.log(`Show info here`)}>
+		<a href="/about" title="About">
 			<InfoSVG />
 		</a>
 	</div>

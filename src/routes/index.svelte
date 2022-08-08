@@ -4,13 +4,16 @@
 	import ProxySVG from '../svg/Proxy.svelte';
 	import RestSVG from '../svg/Rest.svelte';
 	import ConnectionSVG from '../svg/Connection.svelte';
+	import InfoSVG from '../svg/Info.svelte';
 </script>
 
 <home>
 	<div>
-		<div>
-			Qlik Sense API browser <div class="unoficial">Unofficial</div>
-		</div>
+		<title>
+			<div>Qlik Sense API browser</div>
+			<div class="unoficial">Unofficial</div>
+		</title>
+		<about><a href="/about" title="About"><InfoSVG /></a></about>
 	</div>
 	<div>
 		<apis>
@@ -70,14 +73,26 @@
 
 	home > div:nth-child(1) {
 		display: flex;
-		align-items: center;
-		justify-content: center;
+	}
+
+	about {
+		width: 30px;
+	}
+
+	/* home > div:nth-child(1) { */
+	title {
+		flex: 1;
+		display: grid;
+		grid-template-rows: auto auto;
+		/* display: flex; */
+		/* align-items: center; */
+		/* justify-content: center; */
 		font-size: 3.5em;
 		font-weight: bold;
 		text-align: center;
 	}
 
-	home > div:nth-child(2) {
+	title > div:nth-child(1) {
 		display: flex;
 		align-items: center;
 		justify-content: center;

@@ -6,8 +6,8 @@
 </svg>
 
 <style>
-	/* svg { */
-	/* border: 1px solid #cdbfd8; */
-	/* border-radius: 50%; */
-	/* } */
+	svg {
+		border: 1px solid #cdbfd8;
+		border-radius: 50%;
+	}
 </style>
