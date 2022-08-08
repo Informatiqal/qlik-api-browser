@@ -2,6 +2,8 @@
 	import RepositorySVG from '../svg/Repository.svelte';
 	import SaaSSVG from '../svg/Cloud.svelte';
 	import ProxySVG from '../svg/Proxy.svelte';
+	import RestSVG from '../svg/Rest.svelte';
+	import ConnectionSVG from '../svg/Connection.svelte';
 </script>
 
 <home>
@@ -33,17 +35,19 @@
 				</div>
 				<div>QSEoW</div>
 			</a>
-			<a class="disabled engine-rest" href="/engine" title="Engine QSEoW REST API">
-				<div class="name">
-					<span>Engine REST API <br /><span class="soon">(coming soon)</span></span>
-				</div>
-				<div>QSEoW</div>
-			</a>
 			<a class="disabled engine-json" href="/engine-json" title="Engine QSEoW REST API">
 				<div class="name">
-					<span>Engine JSON-RPC<br /><span class="soon">(coming soon)</span></span>
+					<span>Engine JSON-RPC</span>
+					<div><ConnectionSVG /></div>
 				</div>
 				<div>QSEoW / SaaS</div>
+			</a>
+			<a class="disabled engine-rest" href="/engine" title="Engine QSEoW REST API">
+				<div class="name">
+					<span>Engine REST API</span>
+					<div class="rest-svg"><RestSVG /></div>
+				</div>
+				<div>QSEoW</div>
 			</a>
 			<!-- <a class="disabled" href="/engine-json" title="Engine QSEoW REST API">
 			Nebula API<br />(TBA)
@@ -144,9 +148,9 @@
 		box-shadow: none;
 	}
 
-	.disabled > div:nth-child(1) {
+	/* .disabled > div:nth-child(1) {
 		height: 30%;
-	}
+	} */
 
 	.name {
 		display: grid;
@@ -160,16 +164,21 @@
 		justify-content: center;
 	}
 
-	.soon {
+	/* .soon {
 		font-size: 14px;
 		font-weight: normal;
-	}
+	} */
 
 	.unoficial {
 		font-size: 0.5em;
 		font-weight: normal;
 		color: #cdbfd8;
 	}
+
+	/* .rest-svg:nth-child(1) {
+		border: 1px solid red;
+		border-radius: 50%;
+	} */
 
 	/* .saas {
 		grid-area: saas;
