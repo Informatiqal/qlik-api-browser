@@ -69,6 +69,7 @@
 		height: 100%;
 		display: grid;
 		grid-template-rows: 150px auto;
+		gap: 100px;
 	}
 
 	home > div:nth-child(1) {

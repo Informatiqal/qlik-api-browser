@@ -59,6 +59,21 @@
 		</div>
 	{/if}
 
+	{#if definition.schema && definition.schema.type == 'object'}
+		{#each Object.entries(definition.schema.properties) as def}
+			<div class:required={definition.schema?.required.includes(def[0])}>
+				{def[0]}
+				{#if definition.schema?.required.includes(def[0])}
+					<span>*</span>
+				{/if}
+			</div>
+
+			<div class="type">
+				{def[1].type}
+			</div>
+		{/each}
+	{/if}
+
 	<div
 		on:click={() => handleClick()}
 		class:definition={definition.schema?.['$ref'] ||
