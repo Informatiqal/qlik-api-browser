@@ -32,9 +32,6 @@
 	let method = $page.params.method
 		? `/${$page.params.method.replace(/_/g, '/').replace(/\(/g, '{').replace(/\)/g, '}')}`
 		: '';
-
-	// console.log(method);
-	// let apiArea = $page.routeId.split('/')[0];
 </script>
 
 <main-header>
@@ -54,7 +51,10 @@
 					<div>
 						/<span class="method-area" on:click={() => openNinjaWithArea(method.split('/')[1])}
 							>{method.split('/')[1]}</span
-						>/{method.split('/').splice(1).join('/')}
+						>
+						{#if method.split('/').splice(2).join('/')}
+							/{method.split('/').splice(2).join('/')}
+						{/if}
 					</div>
 				</div>
 			{/if}
