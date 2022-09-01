@@ -4,6 +4,7 @@
 	import SaasSVG from '../svg/Cloud.svelte';
 	import RepoSVG from '../svg/Repository.svelte';
 	import ProxySVG from '../svg/Proxy.svelte';
+	import EngineJsonSVG from '../svg/Connection.svelte';
 
 	export let active;
 </script>
@@ -26,11 +27,18 @@
 			<ProxySVG />
 		</a>
 	</div>
+
+	<div class:active={active == 'engine-json'}>
+		<a href="/engine-json" title="Engine JSON API">
+			<EngineJsonSVG />
+		</a>
+	</div>
 </sidebar>
 
 <style>
 	div {
 		width: 60px;
+		height: 60px;
 		display: flex;
 		align-items: center;
 		justify-content: center;

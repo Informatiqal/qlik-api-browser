@@ -42,6 +42,18 @@
 				// }
 			});
 		}
+
+		if (definition.schema?.items?.['$ref']) {
+			openModal(Modal, {
+				ref: definition.schema.items['$ref']
+					.replace('#/components/schemas/', '')
+					.replace('#/definitions/', ''),
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
+			});
+		}
 	}
 </script>
 
@@ -78,7 +90,8 @@
 		on:click={() => handleClick()}
 		class:definition={definition.schema?.['$ref'] ||
 			definition.schema?.enum ||
-			definition.schema?.items?.enum}
+			definition.schema?.items?.enum ||
+			definition.schema?.items?.['$ref']}
 	>
 		{definition.schema?.format ? definition.schema.format : ''}
 		{definition.schema?.enum ? 'enum' : ''}
@@ -87,6 +100,11 @@
 			: ''}
 		{definition.schema?.type == 'array' && definition.schema?.items.enum
 			? definition.schema?.items.type
+			: ''}
+		{definition.schema?.type == 'array' && definition.schema?.items['$ref']
+			? definition.schema.items['$ref']
+					.replace('#/components/schemas/', '')
+					.replace('#/definitions/', '')
 			: ''}
 	</div>
 </parameter>

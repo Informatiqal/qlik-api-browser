@@ -3,19 +3,9 @@
 	import { page } from '$app/stores';
 
 	import GithubSVG from '../svg/GitHub.svelte';
-	// import InfoSVG from '../svg/Info.svelte';
-	// import CloudSVG from '../svg/Cloud.svelte';
-	// import RepositorySVG from '../svg/Repository.svelte';
-	// import ProxySVG from '../svg/Proxy.svelte';
-	// import MenuSVG from '../svg/Menu.svelte';
 	import InfoSVG from '../svg/Info.svelte';
 	import CommandSVG from '../svg/Command.svelte';
 	import HomeSVG from '../svg/Home.svelte';
-
-	// export let title;
-	// export let ninja;
-
-	// $: if (ninja) dispatch('ninjaOpen', { ninjaVisible: ninja.visible });
 
 	const dispatch = createEventDispatcher();
 
@@ -32,6 +22,8 @@
 	let method = $page.params.method
 		? `/${$page.params.method.replace(/_/g, '/').replace(/\(/g, '{').replace(/\)/g, '}')}`
 		: '';
+
+	// console.log(method);
 </script>
 
 <main-header>
@@ -45,15 +37,22 @@
 			{#if method}
 				<div class="path">
 					<div title="Show command palette. Or press Ctrl + K" on:click={openNinja}>
-						<!-- <MenuSVG /> -->
 						<CommandSVG />
 					</div>
 					<div>
-						/<span class="method-area" on:click={() => openNinjaWithArea(method.split('/')[1])}
-							>{method.split('/')[1]}</span
-						>
-						{#if method.split('/').splice(2).join('/')}
-							/{method.split('/').splice(2).join('/')}
+						/{#if method.indexOf('.') > -1}
+							<span
+								class="method-area"
+								on:click={() => openNinjaWithArea(method.split('.')[0].replace('/', ''))}
+								>{method.replace('/', '').split('.')[0]}</span
+							>.{method.split('.').splice(1).join('/')}
+						{:else}
+							<span class="method-area" on:click={() => openNinjaWithArea(method.split('/')[1])}
+								>{method.split('/')[1]}</span
+							>
+							{#if method.split('/').splice(2).join('/')}
+								/{method.split('/').splice(2).join('/')}
+							{/if}
 						{/if}
 					</div>
 				</div>
@@ -66,12 +65,6 @@
 			<InfoSVG />
 		</a>
 	</div>
-	<!-- <div title="Show command palette. Or press Ctrl + K" on:click={openNinja}>
-		<MenuSVG />
-	</div> -->
-	<!-- <div>
-        <a href="/" title="Home"> <HomeSVG /></a>
-    </div> -->
 
 	<div>
 		<a
@@ -83,9 +76,6 @@
 			<GithubSVG />
 		</a>
 	</div>
-	<!-- <div on:click={() => dispatch('openInfo', {})} style="cursor: pointer;" title="About">
-		<InfoSVG />
-	</div> -->
 </main-header>
 
 <style>
@@ -98,11 +88,9 @@
 		grid-template-columns: auto 30px 30px;
 		gap: 15px;
 		height: 80px;
-		/* border-bottom: 1px solid; */
 	}
 
 	.method-area {
-		/* color: #00ff86; */
 		text-decoration: underline dotted #00ff86;
 		text-underline-position: under;
 		cursor: pointer;
@@ -122,13 +110,6 @@
 		fill: #00ff86;
 	}
 
-	/* main-header > div:nth-child(1) { */
-	/* display: flex; */
-	/* justify-content: center; */
-	/* font-weight: bold; */
-	/* font-size: 3em; */
-	/* } */
-
 	.title {
 		display: flex;
 	}
@@ -139,7 +120,6 @@
 		align-items: center;
 		justify-content: center;
 		width: 60px;
-		/* height: 40px; */
 	}
 
 	.title > div:nth-child(2) {
@@ -148,8 +128,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		/* height: 3em; */
-		/* text-align: center; */
 	}
 
 	main-header > div:nth-child(n + 2) {

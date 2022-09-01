@@ -1,6 +1,6 @@
 {
-	"name": "qlik-saas-api-browser",
-	"version": "0.2.2",
+	"name": "qlik-api-browser",
+	"version": "0.3.0",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",

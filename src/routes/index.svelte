@@ -1,6 +1,6 @@
 <script>
 	import RepositorySVG from '../svg/Repository.svelte';
-	import SaaSSVG from '../svg/Cloud.svelte';
+	import SaasSVG from '../svg/Cloud.svelte';
 	import ProxySVG from '../svg/Proxy.svelte';
 	import RestSVG from '../svg/Rest.svelte';
 	import ConnectionSVG from '../svg/Connection.svelte';
@@ -11,7 +11,7 @@
 	<div>
 		<title>
 			<div>Qlik Sense API browser</div>
-			<div class="unoficial">Unofficial</div>
+			<div class="unofficial">Unofficial</div>
 		</title>
 		<about><a href="/about" title="About"><InfoSVG /></a></about>
 	</div>
@@ -20,7 +20,7 @@
 			<a class="saas" href="/saas" title="SaaS REST API">
 				<div class="name">
 					<div>SaaS REST API</div>
-					<div><SaaSSVG /></div>
+					<div><SaasSVG /></div>
 				</div>
 				<div>SaaS</div>
 			</a>
@@ -38,7 +38,7 @@
 				</div>
 				<div>QSEoW</div>
 			</a>
-			<a class="disabled engine-json" href="/engine-json" title="Engine QSEoW REST API">
+			<a class="engine-json" href="/engine-json" title="Engine QSEoW REST API">
 				<div class="name">
 					<span>Engine JSON-RPC</span>
 					<div><ConnectionSVG /></div>
@@ -185,7 +185,7 @@
 		font-weight: normal;
 	} */
 
-	.unoficial {
+	.unofficial {
 		font-size: 0.5em;
 		font-weight: normal;
 		color: #cdbfd8;

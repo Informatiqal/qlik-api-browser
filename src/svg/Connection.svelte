@@ -4,7 +4,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 	viewBox="0 0 353.114 353.114"
 	xml:space="preserve"
-	fill="#cdbfd8"
+	fill="#00ff86"
 >
 	<g>
 		<g>

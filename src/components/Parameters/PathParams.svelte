@@ -29,8 +29,4 @@
 		font-size: 1.2em;
 		border-bottom: 2px outset #4a4a4a;
 	}
-
-	/* path-params > div:nth-child(2) {
-		border-right: 1px solid lightgray;
-	} */
 </style>

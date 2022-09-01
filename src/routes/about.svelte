@@ -32,6 +32,19 @@
 					</div>
 				</li>
 				<li>
+					<span>Engine JSON-RPC API</span>
+					<br />
+					<div>
+						Data scrapping
+						<a href="https://qlik.dev/apis/json-rpc/qix" target="_blank">qlik.dev</a>. The script
+						and the raw data files can be found
+						<a
+							href="https://github.com/countnazgul/download-qlik-saas-api-definitions"
+							target="_blank">here</a
+						>
+					</div>
+				</li>
+				<li>
 					<span>Repository REST API</span>
 					<br />
 					<div>

@@ -4,6 +4,7 @@
 	import { definitions } from '../OpenAPI/saas.json';
 	import { definitions as repoDefinitions } from '../OpenAPI/repo.json';
 	import { definitions as proxyDefinitions } from '../OpenAPI/proxy.json';
+	import { components as engineJsonDefinitions } from '../OpenAPI/engine-rpc.json';
 	import ParameterInModal from './Parameters/ParameterInModal.svelte';
 	import EnumInModal from './EnumInModal.svelte';
 	// import { openAPI } from '../openAPI_data';
@@ -13,6 +14,7 @@
 	export let isOpen;
 	export let ref;
 	export let modalsCount;
+
 	// export let onOpenAnother;
 
 	let definition = {};
@@ -25,6 +27,7 @@
 	if ($page.routeId.split('/')[0] == 'saas') definition = definitions[ref];
 	if ($page.routeId.split('/')[0] == 'repository') definition = repoDefinitions[ref];
 	if ($page.routeId.split('/')[0] == 'proxy') definition = proxyDefinitions[ref];
+	if ($page.routeId.split('/')[0] == 'engine-json') definition = engineJsonDefinitions.schemas[ref];
 
 	// console.log(definition);
 
