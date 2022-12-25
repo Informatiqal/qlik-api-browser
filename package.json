@@ -23,6 +23,6 @@
 	"dependencies": {
 		"ninja-keys": "1.2.2",
 		"svelte-modals": "1.2.0",
-		"svelte-preprocess": "4.10.7"
+		"svelte-preprocess": "5.0.0"
 	}
 }
