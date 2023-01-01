@@ -2,10 +2,13 @@
     "swagger": "2.0",
     "info": {
         "title": "Open API specification for Repository Main API",
-        "version": "34.15.0"
+        "version": "38.16.0"
     },
-    "host": "sense-apr-2019:4242",
+    "host": "sense-apr-2019:443",
     "basePath": "/qrs",
+    "schemes": [
+        "https"
+    ],
     "paths": {
         "/about": {
             "get": {
@@ -431,6 +434,31 @@
                 },
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Locked"
+            }
+        },
+        "/about/api/default/contentcachecontrol": {
+            "get": {
+                "operationId": "dceebb8b-3068-38a1-fda5-9ea13148f524",
+                "parameters": [
+                    {
+                        "name": "listentries",
+                        "in": "query",
+                        "required": false,
+                        "default": true,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
             }
         },
         "/about/api/default/contentlibrary": {
@@ -2827,6 +2855,14 @@
                         "default": false,
                         "type": "boolean",
                         "allowEmptyValue": true
+                    },
+                    {
+                        "name": "exportscope",
+                        "in": "query",
+                        "required": false,
+                        "default": "approved",
+                        "type": "string",
+                        "allowEmptyValue": true
                     }
                 ],
                 "responses": {
@@ -2900,60 +2936,6 @@
                 },
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Experimental"
-            }
-        },
-        "/app/{id}/migrate": {
-            "put": {
-                "operationId": "d4f9ce1f-62fd-48e6-8c78-98c424b42087",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "NoContent"
-                    }
-                },
-                "deprecated": true,
-                "x-qlik-visibility": "Public",
-                "x-qlik-stability": "Locked",
-                "x-qlik-deprecated": true
-            }
-        },
-        "/app/{id}/migrationcompleted": {
-            "post": {
-                "operationId": "a4f9ce1f-62fd-48e6-8c78-98c424b42087",
-                "parameters": [
-                    {
-                        "name": "statusdocument",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/AppMigrationStatus"
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "NoContent"
-                    }
-                },
-                "deprecated": true,
-                "x-qlik-visibility": "Public",
-                "x-qlik-stability": "Locked",
-                "x-qlik-deprecated": true
             }
         },
         "/app/{id}/privileges": {
@@ -3121,30 +3103,6 @@
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Locked",
                 "x-qlik-deprecated": true
-            }
-        },
-        "/app/{id}/unpublish": {
-            "post": {
-                "operationId": "6f310af3-b877-46dd-8b24-b7e43e3835b0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/App"
-                        }
-                    }
-                },
-                "x-qlik-visibility": "Public",
-                "x-qlik-stability": "Experimental"
             }
         },
         "/app/content": {
@@ -5012,6 +4970,14 @@
                     },
                     {
                         "name": "overwrite",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "scanfile",
                         "in": "query",
                         "required": false,
                         "default": false,
@@ -7889,6 +7855,403 @@
                 "x-qlik-stability": "Locked"
             }
         },
+        "/contentcachecontrol": {
+            "get": {
+                "operationId": "2cbee3d6-35d4-406d-5a04-6c6f563a02f0",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ContentCacheControlCondensed"
+                            }
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            },
+            "post": {
+                "operationId": "cb1c4b31-348e-b3af-6ea0-d5bd50166e96",
+                "parameters": [
+                    {
+                        "name": "item",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/contentcachecontrol/{id}": {
+            "get": {
+                "operationId": "03a5c317-2107-0569-0a4b-e2f26e1339a1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            },
+            "put": {
+                "operationId": "4e349e98-0b15-31c3-d61e-0e11e6703f58",
+                "parameters": [
+                    {
+                        "name": "item",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            },
+            "delete": {
+                "operationId": "284f0867-85d4-4f60-dc2b-db70517b0c5b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "NoContent"
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/contentcachecontrol/count": {
+            "get": {
+                "operationId": "725f6b48-5bc1-2e01-62f3-b67cbc15e4e3",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/contentcachecontrol/full": {
+            "get": {
+                "operationId": "76078c0f-208e-7603-24f7-bb1e8958fd6e",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ContentCacheControl"
+                            }
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/contentcachecontrol/many": {
+            "post": {
+                "operationId": "4697a3cb-7f79-f7aa-1504-16ef62dcc741",
+                "parameters": [
+                    {
+                        "name": "items",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ContentCacheControl"
+                            }
+                        }
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ContentCacheControl"
+                            }
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/contentcachecontrol/previewcreateprivilege": {
+            "post": {
+                "operationId": "a0c24efe-d2b9-60a8-874e-a667cfe63d75",
+                "parameters": [
+                    {
+                        "name": "item",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "deprecated": true,
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental",
+                "x-qlik-deprecated": true
+            }
+        },
+        "/contentcachecontrol/previewprivileges": {
+            "post": {
+                "operationId": "b5c9a1af-079d-9dee-e871-e8db41d80856",
+                "parameters": [
+                    {
+                        "name": "item",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ContentCacheControl"
+                        }
+                    },
+                    {
+                        "name": "privilegesfilter",
+                        "in": "query",
+                        "required": false,
+                        "default": 4294967295,
+                        "type": "integer",
+                        "format": "int64",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/contentcachecontrol/table": {
+            "post": {
+                "operationId": "c60a2c06-f2e5-63a9-f38d-229d1a7e38a4",
+                "parameters": [
+                    {
+                        "name": "tabledefinition",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TableDefinition"
+                        }
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "required": false,
+                        "default": 0,
+                        "type": "integer",
+                        "format": "int32",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "take",
+                        "in": "query",
+                        "required": false,
+                        "default": 0,
+                        "type": "integer",
+                        "format": "int32",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "sortcolumn",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "orderascending",
+                        "in": "query",
+                        "required": false,
+                        "default": true,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/Table"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
         "/contentlibrary": {
             "get": {
                 "operationId": "94e66ec7-a335-70e7-c194-f31eb50f414b",
@@ -8107,6 +8470,14 @@
                     },
                     {
                         "name": "overwrite",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "scanfile",
                         "in": "query",
                         "required": false,
                         "default": false,
@@ -11663,6 +12034,14 @@
                         "default": false,
                         "type": "boolean",
                         "allowEmptyValue": true
+                    },
+                    {
+                        "name": "replace",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
                     }
                 ],
                 "responses": {
@@ -11865,6 +12244,31 @@
                 },
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Locked"
+            }
+        },
+        "/externalprogramtask/create": {
+            "post": {
+                "operationId": "0e36b79e-7353-4855-ab84-35292dbcdd74",
+                "parameters": [
+                    {
+                        "name": "bundle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ExternalProgramTaskBundle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/ExternalProgramTask"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
             }
         },
         "/externalprogramtask/full": {
@@ -12075,6 +12479,31 @@
                 },
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Locked"
+            }
+        },
+        "/externalprogramtask/update": {
+            "post": {
+                "operationId": "69bae80e-f6a2-43f3-9cd7-b4b2218ad4f6",
+                "parameters": [
+                    {
+                        "name": "bundle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ExternalProgramTaskChange"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/ExternalProgramTask"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
             }
         },
         "/externalprogramtaskoperational": {
@@ -15241,114 +15670,6 @@
                 },
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Experimental"
-            }
-        },
-        "/license/datamarket": {
-            "get": {
-                "operationId": "4d89be06-7886-4dba-906d-7b114d28ef1a",
-                "parameters": [
-                    {
-                        "name": "privileges",
-                        "in": "query",
-                        "required": false,
-                        "default": false,
-                        "type": "boolean",
-                        "allowEmptyValue": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/License"
-                        }
-                    }
-                },
-                "x-qlik-visibility": "Public",
-                "x-qlik-stability": "Locked"
-            },
-            "post": {
-                "operationId": "913086fe-ac06-432b-9483-5c23b63eb628",
-                "parameters": [
-                    {
-                        "name": "item",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/License"
-                        }
-                    },
-                    {
-                        "name": "control",
-                        "in": "query",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "privileges",
-                        "in": "query",
-                        "required": false,
-                        "default": false,
-                        "type": "boolean",
-                        "allowEmptyValue": true
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/License"
-                        }
-                    }
-                },
-                "x-qlik-visibility": "Public",
-                "x-qlik-stability": "Locked"
-            }
-        },
-        "/license/datamarket/{id}": {
-            "put": {
-                "operationId": "7e663e45-305d-4dae-9d5d-5a7052adb168",
-                "parameters": [
-                    {
-                        "name": "item",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/License"
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    {
-                        "name": "control",
-                        "in": "query",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "privileges",
-                        "in": "query",
-                        "required": false,
-                        "default": false,
-                        "type": "boolean",
-                        "allowEmptyValue": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/License"
-                        }
-                    }
-                },
-                "x-qlik-visibility": "Public",
-                "x-qlik-stability": "Locked"
             }
         },
         "/license/download": {
@@ -29153,6 +29474,307 @@
                 },
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Locked"
+            }
+        },
+        "/selection/{id}/contentcachecontrol": {
+            "get": {
+                "operationId": "3815f48a-abc0-f689-978b-895084cab038",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ContentCacheControlCondensed"
+                            }
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            },
+            "delete": {
+                "operationId": "a65738e9-f880-5fa2-e253-2baaa76eadfe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "NoContent"
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/selection/{id}/contentcachecontrol/count": {
+            "get": {
+                "operationId": "63e0c2af-9c0f-7e5a-0c0c-15f7fe16b33c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/selection/{id}/contentcachecontrol/full": {
+            "get": {
+                "operationId": "f623127f-7f7a-197b-c7e0-4530f45bc135",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ContentCacheControl"
+                            }
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/selection/{id}/contentcachecontrol/synthetic": {
+            "get": {
+                "operationId": "faaf6a80-c8c2-83ff-7d25-9f41df93c8d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "privileges",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SyntheticRootEntity"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            },
+            "put": {
+                "operationId": "57a0fd43-919f-b26e-0658-7fbd10f088bc",
+                "parameters": [
+                    {
+                        "name": "item",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SyntheticRootEntity"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "NoContent"
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/selection/{id}/contentcachecontrol/table": {
+            "post": {
+                "operationId": "d1a5c3e4-a843-7a50-55ff-20eb38b24003",
+                "parameters": [
+                    {
+                        "name": "tabledefinition",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TableDefinition"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "required": false,
+                        "default": 0,
+                        "type": "integer",
+                        "format": "int32",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "take",
+                        "in": "query",
+                        "required": false,
+                        "default": 0,
+                        "type": "integer",
+                        "format": "int32",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "sortcolumn",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    },
+                    {
+                        "name": "orderascending",
+                        "in": "query",
+                        "required": false,
+                        "default": true,
+                        "type": "boolean",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/Table"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
             }
         },
         "/selection/{id}/contentlibrary": {
@@ -48165,6 +48787,30 @@
                 "x-qlik-stability": "Locked"
             }
         },
+        "/selection/contentcachecontrol": {
+            "post": {
+                "operationId": "d190ff39-5ce5-b0f7-bb96-bc36cf633b32",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "allowEmptyValue": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/Selection"
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
         "/selection/contentlibrary": {
             "post": {
                 "operationId": "84d9b2f2-063f-3a42-df54-a4c322c8cee4",
@@ -54293,6 +54939,14 @@
                                 "type": "string"
                             }
                         }
+                    },
+                    {
+                        "name": "secret",
+                        "in": "query",
+                        "required": false,
+                        "default": false,
+                        "type": "boolean",
+                        "allowEmptyValue": true
                     }
                 ],
                 "responses": {
@@ -55895,6 +56549,65 @@
                 },
                 "x-qlik-visibility": "Public",
                 "x-qlik-stability": "Locked"
+            }
+        },
+        "/user/favorites": {
+            "get": {
+                "operationId": "a0544603-c03c-4fe0-b516-c7683d11fbf7",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            }
+        },
+        "/user/favorites/{appid}": {
+            "put": {
+                "operationId": "f2f2bf84-9f41-480a-bae9-2d2513c30263",
+                "parameters": [
+                    {
+                        "name": "appid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "NoContent"
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
+            },
+            "delete": {
+                "operationId": "0789cd3c-a406-4da8-b5ed-3dea07980aa5",
+                "parameters": [
+                    {
+                        "name": "appid",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "NoContent"
+                    }
+                },
+                "x-qlik-visibility": "Public",
+                "x-qlik-stability": "Experimental"
             }
         },
         "/user/full": {
@@ -57991,19 +58704,132 @@
         },
         "AccessTypeOverviewAnalyzerTimeAccessDetailsCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "allocatedMinutes": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "usedMinutes": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "unavailableMinutes": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            }
         },
         "AccessTypeOverviewDetailsCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "total": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "allocated": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "used": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "quarantined": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "excess": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "available": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            }
         },
         "AccessTypeOverviewLoginAccessDetailsCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "tokenCost": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0.01
+                },
+                "allocatedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "usedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "unavailableTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            }
         },
         "AccessTypeOverviewUserAccessDetailsCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "tokenCost": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0.01
+                },
+                "allocatedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "usedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "quarantinedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            }
         },
         "AccessTypesInfo": {
             "type": "object",
@@ -58038,22 +58864,118 @@
         },
         "AccessTypesInfoAnalyzerAccessTypeCondensed": {
             "type": "object",
-            "properties": {},
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "tokenCost": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0.01
+                },
+                "allocatedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "usedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "quarantinedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
             "x-qlik-deprecated": true
         },
         "AccessTypesInfoLoginAccessTypeCondensed": {
             "type": "object",
-            "properties": {},
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "tokenCost": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0.01
+                },
+                "allocatedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "usedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "unavailableTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
             "x-qlik-deprecated": true
         },
         "AccessTypesInfoProfessionalAccessTypeCondensed": {
             "type": "object",
-            "properties": {},
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "tokenCost": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0.01
+                },
+                "allocatedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "usedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "quarantinedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
             "x-qlik-deprecated": true
         },
         "AccessTypesInfoUserAccessTypeCondensed": {
             "type": "object",
-            "properties": {},
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "tokenCost": {
+                    "type": "number",
+                    "format": "float",
+                    "minimum": 0.01
+                },
+                "allocatedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "usedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                },
+                "quarantinedTokens": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
             "x-qlik-deprecated": true
         },
         "AnalyticConnection": {
@@ -58273,6 +59195,10 @@
                 },
                 "availabilityStatus": {
                     "$ref": "#/definitions/AppAvailabilityStatus"
+                },
+                "lastDataDistribution": {
+                    "type": "string",
+                    "format": "date-time"
                 }
             },
             "required": [
@@ -58818,39 +59744,6 @@
                 }
             }
         },
-        "AppMigrationStatus": {
-            "type": "object",
-            "properties": {
-                "schemaPath": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string",
-                    "format": "uuid",
-                    "description": "This property is security accessible"
-                },
-                "hasBeenModified": {
-                    "type": "boolean"
-                },
-                "status": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "engineErrorCode": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "message": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "id",
-                "hasBeenModified",
-                "status",
-                "message"
-            ]
-        },
         "AppObject": {
             "type": "object",
             "properties": {
@@ -59285,7 +60178,26 @@
         },
         "AuditMatrixElementCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "subjectId": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "resourceId": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "audit": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            }
         },
         "AuditMatrixParameters": {
             "type": "object",
@@ -59340,19 +60252,69 @@
         },
         "AuditMatrixParametersPreviewRuleCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "condition": {
+                    "type": "string"
+                }
+            }
         },
         "AuditMatrixParametersResourceRefCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "resourceFilter": {
+                    "type": "string"
+                },
+                "selection": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            }
         },
         "AuditMatrixResourceCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "resourceProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "privileges": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "AuditMatrixSubjectCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "subjectProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "privileges": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "AuditParameters": {
             "type": "object",
@@ -59470,15 +60432,64 @@
         },
         "AuditResourceCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "This property is security accessible"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
         },
         "AuditRuleCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "This property is security accessible"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "actions": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "disabled": {
+                    "type": "boolean"
+                }
+            }
         },
         "AuditUserCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "This property is security accessible"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "userDirectory": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
         },
         "BacktrackedRule": {
             "type": "object",
@@ -60016,6 +61027,9 @@
         "ChangesSinceOutputCondensed": {
             "type": "object",
             "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
                 "changeType": {
                     "$ref": "#/definitions/ChangeType"
                 },
@@ -60420,6 +61434,136 @@
                 }
             }
         },
+        "ContentCacheControl": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "This property is security accessible"
+                },
+                "createdDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "modifiedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "modifiedByUserName": {
+                    "type": "string"
+                },
+                "schemaPath": {
+                    "type": "string"
+                },
+                "privileges": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "description": "This property is security accessible",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "contentLibrary": {
+                    "$ref": "#/definitions/ContentLibraryCondensed",
+                    "description": "This property is security accessible"
+                },
+                "filter": {
+                    "type": "string"
+                },
+                "maxAge": {
+                    "type": "integer",
+                    "format": "seconds",
+                    "maximum": 2147483647,
+                    "minimum": 0
+                },
+                "cachePolicy": {
+                    "type": "integer",
+                    "default": 0,
+                    "enum": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "x-enumNames": [
+                        "Normal",
+                        "MustRevalidate",
+                        "PrivateNormal",
+                        "PrivateMustRevalidate",
+                        "NoStore"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "filter"
+            ],
+            "x-qlik-stability": "Experimental"
+        },
+        "ContentCacheControlCondensed": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "This property is security accessible"
+                },
+                "privileges": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "description": "This property is security accessible",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "contentLibrary": {
+                    "$ref": "#/definitions/ContentLibraryCondensed",
+                    "description": "This property is security accessible"
+                },
+                "filter": {
+                    "type": "string"
+                },
+                "maxAge": {
+                    "type": "integer",
+                    "format": "seconds",
+                    "maximum": 2147483647,
+                    "minimum": 0
+                },
+                "cachePolicy": {
+                    "type": "integer",
+                    "default": 0,
+                    "enum": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "x-enumNames": [
+                        "Normal",
+                        "MustRevalidate",
+                        "PrivateNormal",
+                        "PrivateMustRevalidate",
+                        "NoStore"
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "filter"
+            ],
+            "x-qlik-stability": "Experimental"
+        },
         "ContentLibrary": {
             "type": "object",
             "properties": {
@@ -60730,7 +61874,7 @@
                 "password": {
                     "type": "string",
                     "format": "encrypted-text",
-                    "maxLength": 4096
+                    "maxLength": 524288
                 },
                 "logOn": {
                     "type": "integer",
@@ -60809,7 +61953,7 @@
                 "password": {
                     "type": "string",
                     "format": "encrypted-text",
-                    "maxLength": 4096
+                    "maxLength": 524288
                 },
                 "logOn": {
                     "type": "integer",
@@ -61332,6 +62476,10 @@
                 "createSearchIndexOnReloadEnabled": {
                     "type": "boolean"
                 },
+                "customSettings": {
+                    "type": "string",
+                    "maxLength": 32767
+                },
                 "hyperCubeMemoryLimit": {
                     "type": "integer",
                     "format": "int64",
@@ -61384,6 +62532,9 @@
         "EnumeratedFileCondensed": {
             "type": "object",
             "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
                 "path": {
                     "type": "string"
                 }
@@ -62039,12 +63190,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -62089,6 +63242,69 @@
             ],
             "x-qlik-stability": "Locked"
         },
+        "ExternalProgramTaskBundle": {
+            "type": "object",
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "task": {
+                    "$ref": "#/definitions/ExternalProgramTaskCondensed"
+                },
+                "compositeEvents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CompositeEventCondensed"
+                    }
+                },
+                "schemaEvents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SchemaEventCondensed"
+                    }
+                }
+            },
+            "required": [
+                "task"
+            ]
+        },
+        "ExternalProgramTaskChange": {
+            "type": "object",
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "task": {
+                    "$ref": "#/definitions/ExternalProgramTaskCondensed"
+                },
+                "compositeEventsToDelete": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "schemaEventsToDelete": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "compositeEvents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CompositeEventCondensed"
+                    }
+                },
+                "schemaEvents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SchemaEventCondensed"
+                    }
+                }
+            }
+        },
         "ExternalProgramTaskCondensed": {
             "type": "object",
             "properties": {
@@ -62113,12 +63329,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -62536,6 +63754,10 @@
                 "key": {
                     "type": "string",
                     "maxLength": 4096
+                },
+                "keyDetails": {
+                    "type": "string",
+                    "maxLength": 65500
                 },
                 "name": {
                     "type": "string",
@@ -63293,12 +64515,10 @@
         "LicenseProductLevel": {
             "type": "integer",
             "enum": [
-                50,
-                75
+                50
             ],
             "x-enumNames": [
-                "Sense",
-                "DataMarket"
+                "Sense"
             ]
         },
         "LicenseProfessionalAccessGroup": {
@@ -64961,7 +66181,7 @@
                 "maxConcurrentRequests": {
                     "type": "integer",
                     "format": "int32",
-                    "maximum": 10,
+                    "maximum": 50,
                     "minimum": 1
                 },
                 "purgeOlderThan": {
@@ -64987,6 +66207,9 @@
         "OwnedResourceCondensed": {
             "type": "object",
             "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
                 "owner": {
                     "$ref": "#/definitions/UserCondensed"
                 },
@@ -64995,6 +66218,9 @@
                 },
                 "resource": {
                     "$ref": "#/definitions/RepositoryObjectCondensed"
+                },
+                "objectType": {
+                    "type": "string"
                 }
             }
         },
@@ -65625,12 +66851,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -65663,6 +66891,9 @@
                 },
                 "operational": {
                     "$ref": "#/definitions/ReloadTaskOperationalCondensed"
+                },
+                "isPartialReload": {
+                    "type": "boolean"
                 }
             },
             "required": [
@@ -65760,12 +66991,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -65883,10 +67116,24 @@
         "RepositoryObjectCondensed": {
             "type": "object",
             "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string",
                     "format": "uuid",
                     "description": "This property is security accessible"
+                },
+                "createdDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "modifiedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "modifiedByUserName": {
+                    "type": "string"
                 }
             }
         },
@@ -66410,6 +67657,9 @@
         "ResourcePrivilegesCondensed": {
             "type": "object",
             "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
                 "resource": {
                     "type": "string"
                 },
@@ -66420,7 +67670,20 @@
         },
         "RuleConditionCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "property": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
         },
         "SchedulerService": {
             "type": "object",
@@ -66851,14 +68114,16 @@
                         1,
                         2,
                         3,
-                        4
+                        4,
+                        5
                     ],
                     "x-enumNames": [
                         "once",
                         "hourly",
                         "daily",
                         "weekly",
-                        "monthly"
+                        "monthly",
+                        "custom"
                     ]
                 },
                 "operational": {
@@ -68398,7 +69663,19 @@
         },
         "SyncAuditNodeCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "This property is security accessible"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
         },
         "SyncAuditParameters": {
             "type": "object",
@@ -68469,7 +69746,46 @@
         },
         "SyncRuleApplicationItemCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "nodeID": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "resourceID": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "ruleID": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "allowed": {
+                    "type": "boolean"
+                },
+                "errorAt": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "errorMessage": {
+                    "type": "string"
+                },
+                "evaluationState": {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "x-enumNames": [
+                        "Evaluated",
+                        "ParseFailure",
+                        "EvaluationFailure"
+                    ]
+                }
+            }
         },
         "SyncSession": {
             "type": "object",
@@ -68577,11 +69893,55 @@
         },
         "SyntheticEntityCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "access": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SyntheticEntityCondensed"
+                    }
+                },
+                "properties": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SyntheticPropertyCondensed"
+                    }
+                }
+            }
         },
         "SyntheticPropertyCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "object"
+                },
+                "valueIsDifferent": {
+                    "type": "boolean"
+                },
+                "valueIsModified": {
+                    "type": "boolean"
+                }
+            }
         },
         "SyntheticRootEntity": {
             "type": "object",
@@ -68914,7 +70274,46 @@
         },
         "SystemRuleApplicationItemCondensed": {
             "type": "object",
-            "properties": {}
+            "properties": {
+                "schemaPath": {
+                    "type": "string"
+                },
+                "userID": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "resourceID": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "ruleID": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "allowed": {
+                    "type": "boolean"
+                },
+                "errorAt": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "errorMessage": {
+                    "type": "string"
+                },
+                "evaluationState": {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1,
+                        2
+                    ],
+                    "x-enumNames": [
+                        "Evaluated",
+                        "ParseFailure",
+                        "EvaluationFailure"
+                    ]
+                }
+            }
         },
         "SystemRuleCondensed": {
             "type": "object",
@@ -69239,12 +70638,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -69294,12 +70695,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -69340,7 +70743,9 @@
                 9,
                 10,
                 11,
-                12
+                12,
+                13,
+                14
             ],
             "x-enumNames": [
                 "NeverStarted",
@@ -69355,7 +70760,9 @@
                 "Skipped",
                 "Retry",
                 "Error",
-                "Reset"
+                "Reset",
+                "DistributionQueue",
+                "DistributionRunning"
             ]
         },
         "TaskOperational": {
@@ -69650,6 +71057,12 @@
                     "maxLength": 255,
                     "minLength": 1
                 },
+                "userDirectoryConnectorName": {
+                    "type": "string",
+                    "description": "This property is security accessible",
+                    "maxLength": 255,
+                    "minLength": 1
+                },
                 "name": {
                     "type": "string",
                     "description": "This property is security accessible",
@@ -69685,6 +71098,13 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/TagCondensed"
+                    }
+                },
+                "favorites": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "uuid"
                     }
                 }
             },
@@ -69764,6 +71184,12 @@
                 "userDirectory": {
                     "type": "string",
                     "description": "This property is part of the uniqueness for this schema and is security accessible",
+                    "maxLength": 255,
+                    "minLength": 1
+                },
+                "userDirectoryConnectorName": {
+                    "type": "string",
+                    "description": "This property is security accessible",
                     "maxLength": 255,
                     "minLength": 1
                 },
@@ -70099,12 +71525,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -70168,12 +71596,14 @@
                     "enum": [
                         0,
                         1,
-                        2
+                        2,
+                        3
                     ],
                     "x-enumNames": [
                         "Reload",
                         "ExternalProgram",
-                        "UserSync"
+                        "UserSync",
+                        "Distribute"
                     ]
                 },
                 "enabled": {
@@ -70338,14 +71768,16 @@
                         1,
                         2,
                         3,
-                        4
+                        4,
+                        5
                     ],
                     "x-enumNames": [
                         "Ticket",
                         "HeaderStaticUserDirectory",
                         "HeaderDynamicUserDirectory",
                         "SAML",
-                        "JWT"
+                        "JWT",
+                        "OIDC"
                     ]
                 },
                 "headerAuthenticationMode": {
@@ -70546,6 +71978,61 @@
                 },
                 "samlSlo": {
                     "type": "boolean"
+                },
+                "disableOidcOptionalAttributesParsing": {
+                    "type": "boolean"
+                },
+                "oidcConfigurationEndpointUri": {
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 1024
+                },
+                "oidcClientId": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcClientSecret": {
+                    "type": "string",
+                    "format": "encrypted-text",
+                    "maxLength": 255
+                },
+                "oidcRealm": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeSub": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeName": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeGroups": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeEmail": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeClientId": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributePicture": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcScope": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeMap": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VirtualProxyConfigOidcAttributeMapItem"
+                    }
                 }
             },
             "required": [
@@ -70609,14 +72096,16 @@
                         1,
                         2,
                         3,
-                        4
+                        4,
+                        5
                     ],
                     "x-enumNames": [
                         "Ticket",
                         "HeaderStaticUserDirectory",
                         "HeaderDynamicUserDirectory",
                         "SAML",
-                        "JWT"
+                        "JWT",
+                        "OIDC"
                     ]
                 },
                 "headerAuthenticationMode": {
@@ -70817,6 +72306,61 @@
                 },
                 "samlSlo": {
                     "type": "boolean"
+                },
+                "disableOidcOptionalAttributesParsing": {
+                    "type": "boolean"
+                },
+                "oidcConfigurationEndpointUri": {
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 1024
+                },
+                "oidcClientId": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcClientSecret": {
+                    "type": "string",
+                    "format": "encrypted-text",
+                    "maxLength": 255
+                },
+                "oidcRealm": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeSub": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeName": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeGroups": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeEmail": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeClientId": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributePicture": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcScope": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "oidcAttributeMap": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VirtualProxyConfigOidcAttributeMapItem"
+                    }
                 }
             },
             "required": [
@@ -70862,6 +72406,46 @@
             },
             "required": [
                 "jwtAttribute",
+                "senseAttribute",
+                "isMandatory"
+            ]
+        },
+        "VirtualProxyConfigOidcAttributeMapItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "This property is security accessible"
+                },
+                "createdDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "modifiedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "modifiedByUserName": {
+                    "type": "string"
+                },
+                "schemaPath": {
+                    "type": "string"
+                },
+                "oidcAttribute": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "senseAttribute": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "isMandatory": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "oidcAttribute",
                 "senseAttribute",
                 "isMandatory"
             ]
