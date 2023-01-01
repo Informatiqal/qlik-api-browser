@@ -49,7 +49,7 @@
 					<br />
 					<div>
 						Sourced from Repository API itself by calling
-						<code>/qrs/about/openapi/main</code> endpoint and its based on QSEoW June 2020
+						<code>/qrs/about/openapi/main</code> endpoint and its based on QSEoW May 2022 Patch 11
 					</div>
 				</li>
 				<li>
@@ -57,7 +57,7 @@
 					<br />
 					<div>
 						Sourced from Proxy API itself by calling <code>/qps/about/about/openapi</code> endpoint and
-						its based on QSEoW June 2020
+						its based on QSEoW May 2022 Patch 11
 					</div>
 				</li>
 			</ul>
