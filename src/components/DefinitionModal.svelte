@@ -24,10 +24,11 @@
 
 	refName = ref;
 
-	if ($page.routeId.split('/')[0] == 'saas') definition = definitions[ref];
-	if ($page.routeId.split('/')[0] == 'repository') definition = repoDefinitions[ref];
-	if ($page.routeId.split('/')[0] == 'proxy') definition = proxyDefinitions[ref];
-	if ($page.routeId.split('/')[0] == 'engine-json') definition = engineJsonDefinitions.schemas[ref];
+	if ($page.route.id.split('/')[1] == 'saas') definition = definitions[ref];
+	if ($page.route.id.split('/')[1] == 'repository') definition = repoDefinitions[ref];
+	if ($page.route.id.split('/')[1] == 'proxy') definition = proxyDefinitions[ref];
+	if ($page.route.id.split('/')[1] == 'engine-json')
+		definition = engineJsonDefinitions.schemas[ref];
 
 	// console.log(definition);
 
@@ -64,7 +65,9 @@
 					<name>
 						{refName} ({modalsCount + 1})
 					</name>
-					<div class="modal__close" on:click={closeModal} title="Close">×</div>
+					<div class="modal__close" on:click={closeModal} on:keydown={closeModal} title="Close">
+						×
+					</div>
 				</header>
 
 				{#if definition.properties}

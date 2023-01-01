@@ -1,17 +1,21 @@
 <!-- <script context="module">
-	import * as api from '$lib/apis';
+	throw new Error("@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)");
 
-	export const load = async ({ params, fetch }) => {
-		const ninjaData = await api.ninjaData();
+	// import * as api from '$lib/apis';
 
-		return {
-			props: {
-				ninjaData
-			}
-		};
-	};
+	// export const load = async ({ params, fetch }) => {
+	// 	const ninjaData = await api.ninjaData();
+
+	// 	return {
+	// 		props: {
+	// 			ninjaData
+	// 		}
+	// 	};
+	// };
 </script> -->
 <script>
+	// throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	// import { onMount, tick } from 'svelte';
 	// import { goto } from '$app/navigation';
 

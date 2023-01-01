@@ -36,7 +36,11 @@
 		<div>
 			{#if method}
 				<div class="path">
-					<div title="Show command palette. Or press Ctrl + K" on:click={openNinja}>
+					<div
+						title="Show command palette. Or press Ctrl + K"
+						on:click={openNinja}
+						on:keydown={openNinja}
+					>
 						<CommandSVG />
 					</div>
 					<div>
@@ -44,10 +48,14 @@
 							<span
 								class="method-area"
 								on:click={() => openNinjaWithArea(method.split('.')[0].replace('/', ''))}
+								on:keydown={() => openNinjaWithArea(method.split('.')[0].replace('/', ''))}
 								>{method.replace('/', '').split('.')[0]}</span
 							>.{method.split('.').splice(1).join('/')}
 						{:else}
-							<span class="method-area" on:click={() => openNinjaWithArea(method.split('/')[1])}
+							<span
+								class="method-area"
+								on:click={() => openNinjaWithArea(method.split('/')[1])}
+								on:keydown={() => openNinjaWithArea(method.split('/')[1])}
 								>{method.split('/')[1]}</span
 							>
 							{#if method.split('/').splice(2).join('/')}
@@ -72,6 +80,7 @@
 			href="https://github.com/informatiqal/qlik-api-browser"
 			title="Source code"
 			target="_blank"
+			rel="noreferrer"
 		>
 			<GithubSVG />
 		</a>

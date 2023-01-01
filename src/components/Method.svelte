@@ -2,7 +2,7 @@
 	import HttpMethod from './HttpMethod.svelte';
 	// import UrlPath from './UrlPath.svelte';
 	export let data;
-	// console.log(data);
+
 	// export let restMethod;
 </script>
 

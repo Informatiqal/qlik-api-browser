@@ -88,6 +88,7 @@
 
 	<div
 		on:click={() => handleClick()}
+		on:keydown={() => handleClick()}
 		class:definition={definition.schema?.['$ref'] ||
 			definition.schema?.enum ||
 			definition.schema?.items?.enum ||

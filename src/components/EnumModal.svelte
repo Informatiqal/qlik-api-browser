@@ -16,7 +16,9 @@
 					<name>
 						{definition?.name}
 					</name>
-					<div class="modal__close" on:click={closeModal} title="Close">×</div>
+					<div class="modal__close" on:click={closeModal} on:keydown={closeModal} title="Close">
+						×
+					</div>
 				</header>
 
 				{#if definition.schema?.enum}

@@ -3,7 +3,7 @@
 	const toggle = () => (collapsed = !collapsed);
 </script>
 
-<collapse on:click={toggle}>
+<collapse on:click={toggle} on:keydown={toggle}>
 	{#if collapsed}
 		<!-- Arrow down -->
 		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

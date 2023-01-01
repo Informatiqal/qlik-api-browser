@@ -74,7 +74,11 @@
 			{definition.type ? definition.type : ''}
 		</div>
 
-		<div class:definition={definition['$ref']} on:click={() => handleClick('ref')}>
+		<div
+			class:definition={definition['$ref']}
+			on:click={() => handleClick('ref')}
+			on:keydown={() => handleClick('ref')}
+		>
 			{definition['$ref']
 				? definition['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', '')
 				: ''}
@@ -95,13 +99,18 @@
 		{/if}
 
 		{#if definition.enum}
-			<span on:click={() => handleClick('enum1')} class="definition">enum</span>
+			<span
+				on:click={() => handleClick('enum1')}
+				on:keydown={() => handleClick('enum1')}
+				class="definition">enum</span
+			>
 		{/if}
 
 		{#if definition.schema?.['$ref']}
 			<span
 				class="definition"
 				on:click={() => handleClick('ref')}
+				on:keydown={() => handleClick('ref')}
 				title={definition.schema['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', '')}
@@ -122,6 +131,7 @@
 				<span
 					class="definition"
 					on:click={() => handleClick('array')}
+					on:keydown={() => handleClick('array')}
 					title={definition.items?.['$ref']
 						.replace('#/components/schemas/', '')
 						.replace('#/definitions/', '')}

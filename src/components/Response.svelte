@@ -72,7 +72,7 @@
 			{/if}
 
 			{#if content.schema['$ref']}
-				<span on:click={() => handleClick()} class="definition"
+				<span on:click={() => handleClick()} on:keydown={() => handleClick()} class="definition"
 					>{content.schema['$ref']
 						.replace('#/components/schemas/', '')
 						.replace('#/definitions/', '')}</span

@@ -1,18 +1,3 @@
-<script context="module">
-	import * as api from '$lib/apis';
-
-	export const load = async ({ params, fetch }) => {
-		const ninjaData = await api.ninjaData('engine-json');
-
-		return {
-			props: {
-				ninjaData,
-				method: params.method
-			}
-		};
-	};
-</script>
-
 <script>
 	import { onMount, tick } from 'svelte';
 	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
@@ -21,8 +6,9 @@
 	import MethodMainHeader from '../../components/MethodMainHeader.svelte';
 	import Sidebar from '../../components/Sidebar.svelte';
 
-	export let ninjaData;
-	export let method;
+	export let data;
+	let ninjaData = data.ninjaData;
+	let method = data.method;
 
 	beforeNavigate(() => {
 		loaded = false;
@@ -73,7 +59,7 @@
 			// console.log(methodData);
 			// transition = false;
 			ninjaKeys.close();
-			win.location = `/engine-json/${urlPath.replace(/\//g, '_')}`;
+			win.location = `/saas/${urlPath.replace(/\//g, '_')}`;
 			// goto(`/saas/${urlPath.replace(/\//g, '_')}/`, { preserveState: false });
 			//.replace('{', '+').replace('}', '=')}`;
 			// console.log(encodeURI(urlPath));
@@ -93,13 +79,13 @@
 </script>
 
 <svelte:head>
-	<title>Engine JSON - Qlik API Browser</title>
+	<title>SaaS - Qlik API Browser</title>
 </svelte:head>
 
 <ninja-keys
 	on:selected={handleSelected}
 	bind:this={ninjaKeys}
-	placeholder="Qlik Sense Engine JSON API"
+	placeholder="Qlik Sense SaaS REST API"
 />
 
 <div class="test">
@@ -109,18 +95,18 @@
 		{/if}
 	</div>
 
-	{#if $page.routeId == 'engine-json'}
+	{#if $page.route.id == 'saas'}
 		<placeholder>
 			<div>Qlik <span class="area">SaaS</span> REST API browser!</div>
 			<div>
 				Activate the command palette with <code>Ctrl+K</code> /
 				<code>Cmd+K</code> or click
-				<span class="link" on:click={openNinja}>HERE</span>
+				<span class="link" on:click={openNinja} on:keydown={openNinja}>HERE</span>
 			</div>
 		</placeholder>
 	{/if}
 
-	{#if $page.routeId != 'engine-json' && loaded != false}
+	{#if $page.route.id != 'saas' && loaded != false}
 		<div class="slot">
 			<slot />
 		</div>
@@ -128,7 +114,7 @@
 
 	<!-- {#if $page.routeId != 'saas'} -->
 	<div class="sidebar">
-		<Sidebar active={'engine-json'} />
+		<Sidebar active={'saas'} />
 	</div>
 	<!-- {/if} -->
 </div>

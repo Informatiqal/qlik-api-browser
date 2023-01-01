@@ -1,18 +1,3 @@
-<script context="module">
-	import * as api from '$lib/apis';
-
-	export const load = async ({ params, fetch }) => {
-		const ninjaData = await api.ninjaData('repo');
-
-		return {
-			props: {
-				ninjaData,
-				method: params.method
-			}
-		};
-	};
-</script>
-
 <script>
 	import { onMount, tick } from 'svelte';
 	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
@@ -28,8 +13,10 @@
 	// 	openModal(InfoModal);
 	// }
 
-	export let ninjaData;
-	export let method;
+	export let data;
+
+	let ninjaData = data.ninjaData;
+	let method = data.method;
 
 	beforeNavigate(() => {
 		loaded = false;
@@ -109,7 +96,7 @@
 		{/if}
 	</div>
 
-	{#if $page.routeId == 'repository'}
+	{#if $page.route.id == 'repository'}
 		<placeholder>
 			<div>
 				QSEoW <span class="area">Repository</span> REST API browser!
@@ -117,13 +104,13 @@
 			<div>
 				Activate the command palette with <code>Ctrl+K</code> /
 				<code>Cmd+K</code> or click
-				<span class="link" on:click={openNinja}>HERE</span>
+				<span class="link" on:click={openNinja} on:keydown={openNinja}>HERE</span>
 			</div>
 		</placeholder>
 	{/if}
 
 	<!-- {#if $page.routeId == 'repository'} -->
-	{#if $page.routeId != 'repository' && loaded != false}
+	{#if $page.route.id != 'repository' && loaded != false}
 		<div class="slot">
 			<slot />
 		</div>

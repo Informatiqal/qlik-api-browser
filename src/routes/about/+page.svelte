@@ -1,5 +1,5 @@
 <script>
-	import HomeSVG from '../svg/Home.svelte';
+	import HomeSVG from '../../svg/Home.svelte';
 </script>
 
 <svelte:head>
@@ -23,11 +23,12 @@
 					<br />
 					<div>
 						Data scrapping
-						<a href="https://qlik.dev/apis/#rest" target="_blank">qlik.dev</a>. The script and the
-						raw data files can be found
+						<a href="https://qlik.dev/apis/#rest" target="_blank" rel="noreferrer">qlik.dev</a>. The
+						script and the raw data files can be found
 						<a
 							href="https://github.com/countnazgul/download-qlik-saas-api-definitions"
-							target="_blank">here</a
+							target="_blank"
+							rel="noreferrer">here</a
 						>
 					</div>
 				</li>
@@ -36,11 +37,13 @@
 					<br />
 					<div>
 						Data scrapping
-						<a href="https://qlik.dev/apis/json-rpc/qix" target="_blank">qlik.dev</a>. The script
-						and the raw data files can be found
+						<a href="https://qlik.dev/apis/json-rpc/qix" target="_blank" rel="noreferrer"
+							>qlik.dev</a
+						>. The script and the raw data files can be found
 						<a
 							href="https://github.com/countnazgul/download-qlik-saas-api-definitions"
-							target="_blank">here</a
+							target="_blank"
+							rel="noreferrer">here</a
 						>
 					</div>
 				</li>
@@ -67,14 +70,20 @@
 
 			<contacts-details>
 				<div>Home Page</div>
-				<div><a href="https://informatiqal.com" target="_blank">https://informatiqal.com</a></div>
+				<div>
+					<a href="https://informatiqal.com" target="_blank" rel="noreferrer"
+						>https://informatiqal.com</a
+					>
+				</div>
 				<div>Twitter</div>
 				<div>
-					<a href="https://twitter.com/informatiqal" target="_blank">@informatiqal</a>
+					<a href="https://twitter.com/informatiqal" target="_blank" rel="noreferrer"
+						>@informatiqal</a
+					>
 				</div>
 				<div>GitHub</div>
 				<div>
-					<a href="https://github.com/Informatiqal/" target="_blank"
+					<a href="https://github.com/Informatiqal/" target="_blank" rel="noreferrer"
 						>https://github.com/Informatiqal</a
 					>
 				</div>

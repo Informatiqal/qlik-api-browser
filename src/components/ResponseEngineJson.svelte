@@ -70,6 +70,7 @@
 			<div>{value.type}</div>
 			<div
 				on:click={() => handleClick(value['$ref'])}
+				on:keydown={() => handleClick(value['$ref'])}
 				class:definition={value.schema?.['$ref'] ||
 					value.schema?.enum ||
 					value.schema?.items?.enum ||
