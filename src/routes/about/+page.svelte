@@ -52,15 +52,17 @@
 					<br />
 					<div>
 						Sourced from Repository API itself by calling
-						<code>/qrs/about/openapi/main</code> endpoint and its based on QSEoW May 2022 Patch 11
+						<code>/qrs/about/openapi/main</code> endpoint and its based on QSEoW
+						<span class="qs-version">May 2022 Patch 11</span>
 					</div>
 				</li>
 				<li>
 					<span>Proxy REST API</span>
 					<br />
 					<div>
-						Sourced from Proxy API itself by calling <code>/qps/about/about/openapi</code> endpoint and
-						its based on QSEoW May 2022 Patch 11
+						Sourced from Proxy API itself by calling <code>/qps/about/about/openapi</code> endpoint
+						and its based on QSEoW
+						<span class="qs-version">May 2022 Patch 11</span>
 					</div>
 				</li>
 			</ul>
@@ -109,7 +111,6 @@
 	}
 
 	about-header > div:nth-child(1) {
-		display: flex;
 		width: 30px;
 		cursor: pointer;
 		align-items: center;
@@ -178,6 +179,11 @@
 
 	a {
 		text-decoration: underline dotted;
+		color: #00ff86;
+	}
+
+	.qs-version {
+		font-weight: bold;
 		color: #00ff86;
 	}
 </style>
