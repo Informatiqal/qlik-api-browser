@@ -1,6 +1,7 @@
-import * as saas from '../OpenAPI/saas.json';
+import * as saas from '../OpenAPI/saas';
 import * as repo from '../OpenAPI/repo.json';
 import * as proxy from '../OpenAPI/proxy.json';
+import * as engineJson from '../OpenAPI/engine-rpc.json';
 
 function getMethodData(method, api) {
 	if (api == 'saas') {
@@ -15,6 +16,9 @@ function getMethodData(method, api) {
 
 	if (api == 'repo') return repo.paths[`/${method}`];
 	if (api == 'proxy') return proxy.paths[`/${method}`];
+	if (api == 'engine-json') {
+		return engineJson.methods.filter((m) => m.name == method)[0];
+	}
 }
 
 export function get(method, api) {
@@ -32,8 +36,7 @@ export async function methodsData(realMethodName, area) {
 			error: new Error(`Not found: ${realMethodName}`)
 		};
 
-	const sortOrder = ['get', 'post', 'put', 'delte', 'patch'];
-	// const sortOrder = ['post', 'get', 'put', 'delte', 'patch'];
+	const sortOrder = ['get', 'post', 'put', 'delete', 'patch'];
 
 	const ordered = await Object.fromEntries(
 		Object.entries(a.data).sort((a, b) => {
@@ -55,13 +58,25 @@ export function ninjaData(api) {
 	if (api == 'saas') apiData = saas.paths;
 	if (api == 'repo') apiData = repo.paths;
 	if (api == 'proxy') apiData = proxy.paths;
+	if (api == 'engine-json') {
+		const rawApiData = engineJson.methods;
+
+		apiData = {};
+
+		for (let method of rawApiData) {
+			const m = method.name.split('.');
+			apiData[`${method.name}`] = m;
+		}
+	}
 
 	Object.entries(apiData).map(([key, value]) => {
+		const splitter = api == 'engine-json' ? '.' : '/';
+		const areaElement = api == 'engine-json' ? 0 : 1;
 		// temp.push(key.length);
 		const area = key
 			.replace('/v1', '')
-			.split('/')[1]
-			.replace('-', ' ')
+			.split(splitter)
+			[areaElement].replace('-', ' ')
 			.split(' ')
 			.map((word) => {
 				// console.log(word);
@@ -90,7 +105,9 @@ export function ninjaData(api) {
 			.map((c) => {
 				const methods = Object.keys(c.value);
 				methods.pop();
-				const methodsConcat = methods.join(', ').toUpperCase();
+				let methodsConcat = methods.join(', ').toUpperCase();
+
+				if (api == 'engine-json') methodsConcat = '';
 
 				// const emptySpace = "\u00A0".repeat(100 - c.path.length);
 				// console.log(

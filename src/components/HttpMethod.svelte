@@ -4,8 +4,10 @@
 	import PathParams from './Parameters/PathParams.svelte';
 	import QueryParams from './Parameters/QueryParams.svelte';
 	import BodyParams from './Parameters/BodyParams.svelte';
+	import EngineBodyParams from './Parameters/EngineBodyParams.svelte';
 	import HeaderParams from './Parameters/HeaderParams.svelte';
 	import Response from './Response.svelte';
+	import ResponseEngineJson from './ResponseEngineJson.svelte';
 
 	export let methodType;
 	export let methodData;
@@ -34,8 +36,7 @@
 	const bodyParameters =
 		bodyParameters1.length > 0 ? bodyParameters1 : bodyParameters2?.schema ? bodyParameters2 : [];
 
-	// console.log(bodyParameters1, bodyParameters2, bodyParameters);
-	// console.log(bodyParameters, bodyParameters2);
+	const engineParams = methodData.params?.length > 0 ? methodData.params : [];
 
 	const headerParameters = methodData.parameters
 		? methodData.parameters
@@ -59,7 +60,6 @@
 	</general>
 
 	{#if !collapsed}
-		<!-- <content transition:slide={{ duration: 300 }}> -->
 		<content>
 			<description>
 				{#if methodData.description}
@@ -92,6 +92,9 @@
 					{#if headerParameters.length > 0}
 						<HeaderParams {headerParameters} />
 					{/if}
+					{#if engineParams.length > 0}
+						<EngineBodyParams bodyParameters={engineParams} />
+					{/if}
 				</parameters-content>
 			</parameters>
 
@@ -100,76 +103,19 @@
 					<div>Responses</div>
 				</responses-header>
 				<response>
-					{#if Object.entries(methodData.responses).length > 0}
-						{#each Object.entries(methodData.responses) as response}
-							<Response {response} />
-						{/each}
+					{#if methodData.result}
+						<ResponseEngineJson response={methodData.result} />
+					{/if}
+
+					{#if methodData.responses}
+						{#if Object.entries(methodData.responses).length > 0}
+							{#each Object.entries(methodData.responses) as response}
+								<Response {response} />
+							{/each}
+						{/if}
 					{/if}
 				</response>
 			</responses>
-
-			<!-- {#if queryParameters.length > 0 || urlParameters.length > 0 || bodyParameters}
-				<parameters>
-					<parameters-header>
-						<div>Parameters</div>
-					</parameters-header>
-					<types>
-						{#if urlParameters.length > 0}
-							<url class="parameters-container">
-								<div>Path</div>
-								<div>
-									{#each urlParameters as parameter}
-										<Parameter {parameter} />
-									{/each}
-								</div>
-							</url>
-						{/if}
-						{#if queryParameters.length > 0}
-							<query class="parameters-container">
-								<div class="title">Query</div>
-								<div>
-									{#each queryParameters as parameter}
-										<Parameter {parameter} />
-										<QueryParameters {parameter} />
-									{/each}
-								</div>
-							</query>
-						{/if}
-						{#if methodType != 'get' && methodType != 'delete'}
-							{#if bodyParameters}
-								<request-body>
-									<div>Body</div>
-									<div>
-										{#each bodyParameters as parameter}
-											{#if bodyParameters.schema}
-												<Parameter parameter={bodyParameters} />
-											{/if}
-										{/each}
-									</div>
-								</request-body>
-							{/if}
-						{/if}
-					</types>
-				</parameters>
-			{/if} -->
-
-			<!-- {#if Object.entries(methodData.responses).length > 0}
-				<responses>
-					<responses-header>
-						<div>Responses</div>
-					</responses-header>
-					<response>
-						<response-header>
-							<div>Status</div>
-							<div>Type</div>
-							<div>Format</div>
-						</response-header>
-						{#each Object.entries(methodData.responses) as response}
-							<Response {response} />
-						{/each}
-					</response>
-				</responses>
-			{/if} -->
 		</content>
 	{/if}
 </method>
@@ -194,36 +140,31 @@
 		display: grid;
 		grid-template-rows: auto auto;
 		font-size: 14px;
-		/* border-left: 1px solid; */
-		/* border-right: 1px solid; */
-		/* border-bottom: 1px solid; */
-		/* border-color: #49cc90; */
-		/* gap: 10px; */
 	}
 
 	.post {
-		/* background-color: rgb(102, 217, 229); */
 		background-color: #1c355e;
 		color: rgb(102, 217, 229);
 	}
 
 	.get {
 		background-color: #1c355e;
-		/* background: linear-gradient(90deg, rgba(166, 226, 46, 1) 0%, rgba(255, 255, 255, 1) 100%); */
-		/* color: black; */
+		color: rgb(166, 226, 46);
+	}
+
+	.WebSocket {
+		background-color: #1c355e;
 		color: rgb(166, 226, 46);
 	}
 
 	.put {
 		color: rgb(184, 138, 245);
 		background-color: #1c355e;
-		/* color: black; */
 	}
 
 	.delete {
 		color: rgb(253, 108, 161);
 		background-color: #1c355e;
-		/* color: black; */
 	}
 
 	.patch {
@@ -251,14 +192,12 @@
 	parameters {
 		display: grid;
 		grid-template-rows: 40px auto;
-		/* gap: 10px; */
 	}
 
 	parameters-content {
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction: row;
-		/* grid-template-columns: 1fr; */
 		gap: 10px;
 		grid-column: 1 / span 2;
 		padding: 10px;
@@ -276,30 +215,6 @@
 	parameters-header > div {
 		padding-left: 10px;
 	}
-
-	/* url {
-		flex-grow: 1;
-	}
-
-	url > div:first-of-type {
-		border-bottom: 1px solid #353535;
-	}
-
-	query {
-		flex-grow: 1;
-	}
-
-	query > div:first-of-type {
-		border-bottom: 1px solid #353535;
-	}
-
-	request-body {
-		flex-grow: 1;
-	}
-
-	request-body > div:first-of-type {
-		border-bottom: 1px solid #353535;
-	} */
 
 	.parameters-container {
 		display: grid;
@@ -322,26 +237,11 @@
 		padding-left: 10px;
 	}
 
-	/* response {
-		padding-left: 10px;
-	}
-
-	response-header {
-		display: flex;
-		flex-direction: row;
-		border-bottom: 1px solid #353535;
-	}
-
-	response-header > div {
-		flex: 1;
-	} */
-
 	.title {
 		font-weight: bold;
 	}
 
 	description {
-		/* min-height: 30px; */
 		padding: 10px;
 	}
 </style>

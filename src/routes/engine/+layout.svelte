@@ -3,8 +3,6 @@
 	import InfoSVG from '../../svg/Info.svelte';
 	import MenuSVG from '../../svg/Menu.svelte';
 	import HomeSVG from '../../svg/Home.svelte';
-
-	function openInfo() {}
 </script>
 
 <main-header>
@@ -24,8 +22,8 @@
 			<GithubSVG />
 		</a>
 	</div>
-	<div on:click={openInfo} style="cursor: pointer;" title="About">
-		<InfoSVG />
+	<div>
+		<a href="/about" title="About"><InfoSVG /></a>
 	</div>
 </main-header>
 <slot />

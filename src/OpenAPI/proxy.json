@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "Open API specification for Proxy Main API",
-        "version": "34.15.0"
+        "version": "38.11.0"
     },
     "host": "sense-apr-2019:4243",
     "basePath": "/qps",
@@ -643,6 +643,9 @@
                 },
                 "newUser": {
                     "type": "boolean"
+                },
+                "userName": {
+                    "type": "string"
                 }
             },
             "required": [
@@ -775,6 +778,9 @@
                     }
                 },
                 "sessionId": {
+                    "type": "string"
+                },
+                "userName": {
                     "type": "string"
                 }
             },

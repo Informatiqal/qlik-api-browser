@@ -5,7 +5,6 @@
 	viewBox="0 0 377 377"
 	style="enable-background:new 0 0 377 377;"
 	xml:space="preserve"
-	fill="#fff"
 >
 	<g>
 		<circle cx="15" cy="88.5" r="15" />

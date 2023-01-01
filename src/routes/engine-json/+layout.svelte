@@ -1,34 +1,30 @@
-<script context="module">
-	import * as api from '$lib/apis';
-
-	export const load = async ({ params, fetch }) => {
-		const ninjaData = await api.ninjaData('saas');
-
-		return {
-			props: {
-				ninjaData,
-				method: params.method
-			}
-		};
-	};
-</script>
-
 <script>
 	import { onMount, tick } from 'svelte';
-	import { goto } from '$app/navigation';
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 
 	import MethodMainHeader from '../../components/MethodMainHeader.svelte';
 	import Sidebar from '../../components/Sidebar.svelte';
 
-	export let ninjaData;
-	export let method;
+	export let data;
+
+	let ninjaData = data.ninjaData;
+	let method = data.method;
+
+	beforeNavigate(() => {
+		loaded = false;
+	});
+
+	afterNavigate(() => {
+		loaded = true;
+	});
 
 	let NinjaKeys;
 	let ninja;
 	let ninjaKeys;
 	let methodData = undefined;
 	let urlPath = '';
+	let loaded = false;
 
 	$: if (ninjaKeys) {
 		ninja = ninjaKeys;
@@ -43,8 +39,10 @@
 		await tick();
 		ninja.data = ninjaData;
 		// console.log(ninjaData);
+		// console.log(ninjaData);
 
 		if (!method) ninja.open();
+		if (method) loaded = true;
 	});
 
 	// let transition = true;
@@ -62,44 +60,54 @@
 			// console.log(methodData);
 			// transition = false;
 			ninjaKeys.close();
-			win.location = `/saas/${urlPath.replace(/\//g, '_')}`;
+			win.location = `/engine-json/${urlPath.replace(/\//g, '_')}`;
+			// goto(`/saas/${urlPath.replace(/\//g, '_')}/`, { preserveState: false });
 			//.replace('{', '+').replace('}', '=')}`;
 			// console.log(encodeURI(urlPath));
-			// goto(`/saas/${urlPath.replace(/\//g, '_')}`);
 			// window.href = `/saas/${urlPath.replace(/\//g, '_')}`;
 		}
 
 		return true;
 	}
+
+	function openNinja(ev) {
+		if (ev.detail.area) {
+			ninja.open({ parent: ev.detail.area });
+		} else {
+			ninja.open();
+		}
+	}
 </script>
 
 <svelte:head>
-	<title>SaaS - Qlik API Browser</title>
+	<title>Engine JSON - Qlik API Browser</title>
 </svelte:head>
 
 <ninja-keys
 	on:selected={handleSelected}
 	bind:this={ninjaKeys}
-	placeholder="Qlik Sense SaaS REST API"
+	placeholder="Qlik Sense Engine JSON API"
 />
 
 <div class="test">
 	<div class="header">
-		<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{#if loaded != false}
+			<MethodMainHeader on:ninjaOpen={openNinja} />
+		{/if}
 	</div>
 
-	{#if $page.routeId == 'saas'}
+	{#if $page.route.id == 'engine-json'}
 		<placeholder>
 			<div>Qlik <span class="area">SaaS</span> REST API browser!</div>
 			<div>
 				Activate the command palette with <code>Ctrl+K</code> /
 				<code>Cmd+K</code> or click
-				<span class="link" on:click={ninja.open()}>HERE</span>
+				<span class="link" on:click={openNinja} on:keydown={openNinja}>HERE</span>
 			</div>
 		</placeholder>
 	{/if}
 
-	{#if $page.routeId != 'saas'}
+	{#if $page.route.id != 'engine-json' && loaded != false}
 		<div class="slot">
 			<slot />
 		</div>
@@ -107,7 +115,7 @@
 
 	<!-- {#if $page.routeId != 'saas'} -->
 	<div class="sidebar">
-		<Sidebar active={'saas'} />
+		<Sidebar active={'engine-json'} />
 	</div>
 	<!-- {/if} -->
 </div>

@@ -2,7 +2,7 @@
 	import Parameter from './Parameter.svelte';
 	export let bodyParameters;
 
-	console.log(bodyParameters);
+	// console.log(bodyParameters);
 </script>
 
 <body-params>

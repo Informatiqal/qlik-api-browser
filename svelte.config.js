@@ -12,13 +12,13 @@ const config = {
 			assets: 'build',
 			fallback: 'index.html',
 			precompress: false
-		}),
+		})
 		// prerender: {
 		// 	default: true,
 		// 	crawl: true,
 		// 	enabled: true
 		// },
-		trailingSlash: 'always'
+		// trailingSlash: 'always'
 	}
 };
 

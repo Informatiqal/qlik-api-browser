@@ -48,6 +48,8 @@
 		display: grid;
 		grid-template-columns: auto;
 		grid-template-rows: auto auto;
+		overflow: hidden;
+		height: 100%;
 	}
 
 	header {
@@ -99,10 +101,12 @@
 		margin-top: 100px;
 		margin-left: 0px;
 		margin-right: 0px;
-		max-height: 80%;
-		overflow: auto;
+		/* max-height: 80%; */
+		overflow: hidden;
 		max-width: 90%;
 		min-width: 50%;
+		/* height: 100%; */
+		height: 600px;
 	}
 
 	info {

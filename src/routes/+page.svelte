@@ -1,21 +1,26 @@
 <script>
 	import RepositorySVG from '../svg/Repository.svelte';
-	import SaaSSVG from '../svg/Cloud.svelte';
+	import SaasSVG from '../svg/Cloud.svelte';
 	import ProxySVG from '../svg/Proxy.svelte';
+	import RestSVG from '../svg/Rest.svelte';
+	import ConnectionSVG from '../svg/Connection.svelte';
+	import InfoSVG from '../svg/Info.svelte';
 </script>
 
 <home>
 	<div>
-		<div>
-			Qlik Sense API browser <div class="unoficial">Unofficial</div>
-		</div>
+		<title>
+			<div>Qlik Sense API browser</div>
+			<div class="unofficial">Unofficial</div>
+		</title>
+		<about><a href="/about" title="About"><InfoSVG /></a></about>
 	</div>
 	<div>
 		<apis>
 			<a class="saas" href="/saas" title="SaaS REST API">
 				<div class="name">
 					<div>SaaS REST API</div>
-					<div><SaaSSVG /></div>
+					<div><SaasSVG /></div>
 				</div>
 				<div>SaaS</div>
 			</a>
@@ -33,17 +38,19 @@
 				</div>
 				<div>QSEoW</div>
 			</a>
-			<a class="disabled engine-rest" href="/engine" title="Engine QSEoW REST API">
+			<a class="engine-json" href="/engine-json" title="Engine QSEoW REST API">
 				<div class="name">
-					<span>Engine REST API <br /><span class="soon">(coming soon)</span></span>
-				</div>
-				<div>QSEoW</div>
-			</a>
-			<a class="disabled engine-json" href="/engine-json" title="Engine QSEoW REST API">
-				<div class="name">
-					<span>Engine JSON-RPC<br /><span class="soon">(coming soon)</span></span>
+					<span>Engine JSON-RPC</span>
+					<div><ConnectionSVG /></div>
 				</div>
 				<div>QSEoW / SaaS</div>
+			</a>
+			<a class="disabled engine-rest" href="/engine" title="Engine QSEoW REST API">
+				<div class="name">
+					<span>Engine REST API</span>
+					<div class="rest-svg"><RestSVG /></div>
+				</div>
+				<div>QSEoW</div>
 			</a>
 			<!-- <a class="disabled" href="/engine-json" title="Engine QSEoW REST API">
 			Nebula API<br />(TBA)
@@ -62,18 +69,31 @@
 		height: 100%;
 		display: grid;
 		grid-template-rows: 150px auto;
+		gap: 100px;
 	}
 
 	home > div:nth-child(1) {
 		display: flex;
-		align-items: center;
-		justify-content: center;
+	}
+
+	about {
+		width: 30px;
+	}
+
+	/* home > div:nth-child(1) { */
+	title {
+		flex: 1;
+		display: grid;
+		grid-template-rows: auto auto;
+		/* display: flex; */
+		/* align-items: center; */
+		/* justify-content: center; */
 		font-size: 3.5em;
 		font-weight: bold;
 		text-align: center;
 	}
 
-	home > div:nth-child(2) {
+	title > div:nth-child(1) {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -144,9 +164,9 @@
 		box-shadow: none;
 	}
 
-	.disabled > div:nth-child(1) {
+	/* .disabled > div:nth-child(1) {
 		height: 30%;
-	}
+	} */
 
 	.name {
 		display: grid;
@@ -160,16 +180,21 @@
 		justify-content: center;
 	}
 
-	.soon {
+	/* .soon {
 		font-size: 14px;
 		font-weight: normal;
-	}
+	} */
 
-	.unoficial {
+	.unofficial {
 		font-size: 0.5em;
 		font-weight: normal;
 		color: #cdbfd8;
 	}
+
+	/* .rest-svg:nth-child(1) {
+		border: 1px solid red;
+		border-radius: 50%;
+	} */
 
 	/* .saas {
 		grid-area: saas;

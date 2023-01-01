@@ -7,7 +7,6 @@
 	// console.log(definition);
 
 	$: activeModal = $modals.length;
-	// $: definition = definition[0];
 
 	function handleClick() {
 		if (definition.schema?.['$ref']) {
@@ -15,10 +14,10 @@
 				ref: definition.schema['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', ''),
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 
@@ -26,10 +25,33 @@
 			openModal(EnumModal, {
 				ref: `${definition.name}`,
 				definition: definition,
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
+			});
+		}
+
+		if (definition.schema?.items?.enum) {
+			openModal(EnumModal, {
+				// ref: `${definition.name}`,
+				definition: definition
+				// modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
+			});
+		}
+
+		if (definition.schema?.items?.['$ref']) {
+			openModal(Modal, {
+				ref: definition.schema.items['$ref']
+					.replace('#/components/schemas/', '')
+					.replace('#/definitions/', ''),
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 	}
@@ -45,18 +67,45 @@
 		</div>
 
 		<div class="type">
-			{definition.schema?.type ? definition.schema.type : ''}
+			{definition.type ? definition.type : definition.schema?.type ? definition.schema.type : ''}
 		</div>
+	{/if}
+
+	{#if definition.schema && definition.schema.type == 'object'}
+		{#each Object.entries(definition.schema.properties) as def}
+			<div class:required={definition.schema?.required.includes(def[0])}>
+				{def[0]}
+				{#if definition.schema?.required.includes(def[0])}
+					<span>*</span>
+				{/if}
+			</div>
+
+			<div class="type">
+				{def[1].type}
+			</div>
+		{/each}
 	{/if}
 
 	<div
 		on:click={() => handleClick()}
-		class:definition={definition.schema?.['$ref'] || definition.schema?.enum}
+		on:keydown={() => handleClick()}
+		class:definition={definition.schema?.['$ref'] ||
+			definition.schema?.enum ||
+			definition.schema?.items?.enum ||
+			definition.schema?.items?.['$ref']}
 	>
 		{definition.schema?.format ? definition.schema.format : ''}
 		{definition.schema?.enum ? 'enum' : ''}
 		{definition.schema?.['$ref']
 			? definition.schema['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', '')
+			: ''}
+		{definition.schema?.type == 'array' && definition.schema?.items.enum
+			? definition.schema?.items.type
+			: ''}
+		{definition.schema?.type == 'array' && definition.schema?.items['$ref']
+			? definition.schema.items['$ref']
+					.replace('#/components/schemas/', '')
+					.replace('#/definitions/', '')
 			: ''}
 	</div>
 </parameter>

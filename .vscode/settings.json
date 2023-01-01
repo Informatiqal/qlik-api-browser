@@ -1,0 +1,13 @@
+{
+    "svelte.plugin.svelte.compilerWarnings": {
+        "a11y-invalid-attribute": "ignore",
+        "a11y-missing-attribute": "ignore",
+    },
+    "cSpell.words": [
+        "keydown",
+        "nbsp",
+        "openapi",
+        "Tahoma",
+        "Verdana"
+    ]
+}

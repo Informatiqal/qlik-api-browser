@@ -1,9 +1,12 @@
 <script>
 	import { openModal, modals } from 'svelte-modals';
 	import Modal from '../DefinitionModal.svelte';
+	import EnumModal from '../EnumModal.svelte';
 
 	export let definition;
 	export let required;
+
+	// console.log(definition);
 
 	$: activeModal = $modals.length;
 
@@ -12,10 +15,10 @@
 		if (paramType == 'ref')
 			openModal(Modal, {
 				ref: definition['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', ''),
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 
 		if (paramType == 'array')
@@ -23,19 +26,30 @@
 				ref: definition.items?.['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', ''),
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 
 		if (paramType == 'enum') {
 			openModal(Modal, {
 				ref: `${definition.name}`,
-				modalsCount: activeModal,
-				onOpenAnother: (ref1) => {
-					handleClick(ref1);
-				}
+				modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
+			});
+		}
+
+		if (paramType == 'enum1') {
+			openModal(EnumModal, {
+				// ref: undefined,
+				definition: definition
+				// modalsCount: activeModal
+				// onOpenAnother: (ref1) => {
+				// 	handleClick(ref1);
+				// }
 			});
 		}
 	}
@@ -60,7 +74,11 @@
 			{definition.type ? definition.type : ''}
 		</div>
 
-		<div class:definition={definition['$ref']} on:click={() => handleClick('ref')}>
+		<div
+			class:definition={definition['$ref']}
+			on:click={() => handleClick('ref')}
+			on:keydown={() => handleClick('ref')}
+		>
 			{definition['$ref']
 				? definition['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', '')
 				: ''}
@@ -76,10 +94,23 @@
 			<span class="definition">enum</span>
 		{/if}
 
+		{#if definition.format}
+			<span>{definition.format}</span>
+		{/if}
+
+		{#if definition.enum}
+			<span
+				on:click={() => handleClick('enum1')}
+				on:keydown={() => handleClick('enum1')}
+				class="definition">enum</span
+			>
+		{/if}
+
 		{#if definition.schema?.['$ref']}
 			<span
 				class="definition"
 				on:click={() => handleClick('ref')}
+				on:keydown={() => handleClick('ref')}
 				title={definition.schema['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', '')}
@@ -100,6 +131,7 @@
 				<span
 					class="definition"
 					on:click={() => handleClick('array')}
+					on:keydown={() => handleClick('array')}
 					title={definition.items?.['$ref']
 						.replace('#/components/schemas/', '')
 						.replace('#/definitions/', '')}
@@ -117,26 +149,63 @@
 	</div>
 
 	<div class="description" title={definition.description}>
-		{definition.description ? definition.description : '-'}
+		<!-- <div class="text"> -->
+		{definition.description ? definition.description : ''}
+		<!-- </div> -->
 	</div>
 </parameter>
 
 <style>
 	parameter {
 		display: grid;
-		grid-template-columns: 2fr 2fr 2fr 5fr;
+		grid-template-columns: 2fr 2fr 2fr 4fr;
+		height: 30px;
+		padding: 5px;
+		/* gap: 20px; */
 	}
+
+	/* parameter > div { */
+	/* display: flex; */
+	/* align-items: center; */
+	/* } */
 
 	parameter > div:nth-child(1) {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		/* display: flex; */
+		align-items: center;
+	}
+
+	parameter > div:nth-child(2) {
+		font-style: italic;
+		display: flex;
+		justify-content: center;
+		display: flex;
+		align-items: center;
+		/* font-size: 14px; */
+		/* white-space: nowrap; */
+		/* text-overflow: ellipsis; */
+		/* overflow: hidden; */
 	}
 
 	parameter > div:nth-child(3) {
-		white-space: nowrap;
+		/* white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		font-style: italic;
+		display: inline-block !important; */
+		/* display: flex; */
+		/* justify-content: center; */
+		font-style: italic;
+		display: flex;
+		justify-content: center;
+		display: flex;
+		align-items: center;
+	}
+
+	parameter:hover {
+		background-color: #3563ae;
 	}
 
 	.required > span {
@@ -166,5 +235,7 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		/* display: flex; */
+		/* align-items: center; */
 	}
 </style>

@@ -7,11 +7,11 @@
 	{#if data.hasOwnProperty('default')}
 		<div class="value3"><code>{data.default}</code></div>
 	{:else}
-		<div class="value3">-</div>
+		<div class="value3"><code>-</code></div>
 	{/if}
 
 	<div class="title2">Type</div>
-	<div class="value2">{data.type}</div>
+	<div class="value2">{data.type ? data.type : '-'}</div>
 
 	<div class="title1">Values</div>
 	<div class="value1">
@@ -35,7 +35,9 @@
 			'title2 value2'
 			'title3 value3'
 			'title1 value1';
+		grid-template-rows: 30px 30px auto;
 		gap: 5px;
+		overflow: hidden;
 	}
 
 	.title1 {
@@ -54,6 +56,8 @@
 		grid-area: value1;
 		display: flex;
 		flex-direction: column;
+		overflow: auto;
+		height: 100%;
 	}
 
 	.value2 {
@@ -69,7 +73,9 @@
 		display: inline-block;
 	}
 
-	/* code { */
-	/* background-color: black; */
-	/* } */
+	code {
+		background-color: black;
+		padding: 3px;
+		/* padding: 0px 0px 0px 10px; */
+	}
 </style>

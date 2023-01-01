@@ -1,6 +1,6 @@
 {
-	"name": "qlik-saas-api-browser",
-	"version": "0.0.1",
+	"name": "qlik-api-browser",
+	"version": "0.5.0",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -12,17 +12,17 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/adapter-static": "^1.0.0-next.38",
+		"@sveltejs/adapter-static": "^1.0.0",
 		"@sveltejs/kit": "next",
-		"prettier": "^2.6.2",
-		"prettier-plugin-svelte": "^2.7.0",
-		"svelte": "^3.44.0",
-		"vite": "^3.0.0"
+		"prettier": "^2.8.1",
+		"prettier-plugin-svelte": "^2.9.0",
+		"svelte": "^3.55.0",
+		"vite": "^4.0.3"
 	},
 	"type": "module",
 	"dependencies": {
 		"ninja-keys": "^1.2.2",
-		"svelte-modals": "^1.1.0",
-		"svelte-preprocess": "^4.10.7"
+		"svelte-modals": "^1.2.1",
+		"svelte-preprocess": "^5.0.0"
 	}
 }

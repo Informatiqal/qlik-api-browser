@@ -1,61 +1,52 @@
-<script context="module">
-	import * as api from '$lib/apis';
-
-	export const load = async ({ params, fetch }) => {
-		const ninjaData = await api.ninjaData('repo');
-
-		return {
-			props: {
-				ninjaData,
-				method: params.method
-			}
-		};
-	};
-</script>
-
 <script>
 	import { onMount, tick } from 'svelte';
-	import { goto } from '$app/navigation';
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
-
-	// import { openModal } from 'svelte-modals';
 
 	import Sidebar from '../../components/Sidebar.svelte';
 	import MethodMainHeader from '../../components/MethodMainHeader.svelte';
-	// import InfoModal from '../../components/Modals/InfoRepositoryModal.svelte';
+	function openInfo() {}
 
-	// function openInfo() {
-	// 	openModal(InfoModal);
-	// }
+	export let data;
 
-	export let ninjaData;
-	export let method;
+	let ninjaData = data.ninjaData;
+	let method = data.method;
+
+	beforeNavigate(() => {
+		loaded = false;
+	});
+
+	afterNavigate(() => {
+		loaded = true;
+	});
 
 	let NinjaKeys;
 	let ninja;
 	let ninjaKeys;
 	let methodData = undefined;
 	let urlPath = '';
+	let loaded = false;
 
 	$: if (ninjaKeys) {
 		ninja = ninjaKeys;
 	}
 
-	// console.log($page);
-
 	onMount(async () => {
 		const n = await import('ninja-keys');
 		NinjaKeys = n.NinjaKeys;
-		// await tick();
 		await tick();
 		ninja.data = ninjaData;
-		// console.log(ninjaData);
+
+		// await tick();
 
 		if (!method) ninja.open();
+		if (method) loaded = true;
 	});
 
+	// $: console.log(ninjaKeys?.visible);
+
 	// let transition = true;
-	function handleSelected(event) {
+	async function handleSelected(event) {
 		if (!event.detail.action.parent) {
 			methodData = {};
 			urlPath = '';
@@ -64,53 +55,73 @@
 
 		if (event.detail.action.parent) {
 			urlPath = event.detail.action.id;
+			// transition = true;
 			methodData = { ...event.detail.action.data };
+			// console.log(methodData);
+			// transition = false;
+			// console.log(urlPath.replace(/\//g, '_'));
 			ninjaKeys.close();
-			win.location = `/repository/${urlPath.replace(/\//g, '_')}`;
-			// goto(`/repository/${urlPath.replace(/\//g, '_')}`);
+			await tick();
+			// console.log(encodeURI(urlPath));
+			// invalidate();
+			win.location = `/proxy/${urlPath.replace(/\//g, '_')}`;
+			// goto(`/proxy/${urlPath.replace(/\//g, '_')}`, { replaceState: true });
+			// window.href = `/saas/${urlPath.replace(/\//g, '_')}`;
 		}
 
 		return true;
 	}
+
+	function openNinja(ev) {
+		if (ev.detail.area) {
+			ninja.open({ parent: ev.detail.area });
+		} else {
+			ninja.open();
+		}
+	}
 </script>
 
 <svelte:head>
-	<title>Repository - Qlik API Browser</title>
+	<title>Proxy - Qlik API Browser</title>
 </svelte:head>
 
 <ninja-keys
 	on:selected={handleSelected}
 	bind:this={ninjaKeys}
-	placeholder="Qlik Sense Repository REST API"
+	placeholder="Qlik Sense Proxy REST API"
 />
 
+<!-- {#if ninja && !ninja.visible} -->
+<!-- title={'Qlik Proxy REST API'}
+{ninja} -->
 <div class="test">
 	<div class="header">
-		<MethodMainHeader on:ninjaOpen={ninja.open()} />
+		{#if loaded != false}
+			<MethodMainHeader on:ninjaOpen={openNinja} />
+		{/if}
+		<!-- {/if} -->
 	</div>
 
-	{#if $page.routeId == 'repository'}
+	{#if $page.route.id == 'proxy'}
 		<placeholder>
-			<div>
-				QSEoW <span class="area">Repository</span> REST API browser!
-			</div>
+			<div>QSEoW <span class="area">Proxy</span> REST API browser!</div>
 			<div>
 				Activate the command palette with <code>Ctrl+K</code> /
 				<code>Cmd+K</code> or click
-				<span class="link" on:click={() => ninja.open()}>HERE</span>
+				<span class="link" on:click={openNinja} on:keydown={openNinja}>HERE</span>
 			</div>
 		</placeholder>
 	{/if}
 
 	<!-- {#if $page.routeId == 'repository'} -->
-	{#if $page.routeId != 'repository'}
+	{#if $page.route.id != 'proxy' && loaded != false}
 		<div class="slot">
 			<slot />
 		</div>
 	{/if}
 
 	<div class="sidebar">
-		<Sidebar active={'repository'} />
+		<Sidebar active={'proxy'} />
 	</div>
 </div>
 

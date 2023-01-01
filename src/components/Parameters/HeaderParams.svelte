@@ -19,9 +19,9 @@
 
 <style>
 	header-params {
-		min-width: 200px;
-		max-width: 55%;
 		flex-grow: 1;
+		flex-basis: 0;
+		min-width: 0;
 	}
 
 	header-params > div:nth-child(1) {
