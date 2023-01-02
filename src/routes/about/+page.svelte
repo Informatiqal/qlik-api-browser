@@ -27,6 +27,7 @@
 						script and the raw data files can be found
 						<a
 							href="https://github.com/countnazgul/download-qlik-saas-api-definitions"
+							title="GitHub Repo"
 							target="_blank"
 							rel="noreferrer">here</a
 						>
@@ -41,7 +42,8 @@
 							>qlik.dev</a
 						>. The script and the raw data files can be found
 						<a
-							href="https://github.com/countnazgul/download-qlik-saas-api-definitions"
+							href="https://github.com/countnazgul/download-qlik-saas-api-definitions/tree/main/data"
+							title="GitHub Repo"
 							target="_blank"
 							rel="noreferrer">here</a
 						>
@@ -53,7 +55,12 @@
 					<div>
 						Sourced from Repository API itself by calling
 						<code>/qrs/about/openapi/main</code> endpoint and its based on QSEoW
-						<span class="qs-version">May 2022 Patch 11</span>
+						<a
+							href="https://github.com/countnazgul/download-qlik-saas-api-definitions/tree/main/data"
+							target="_blank"
+							title="GitHub Repo"
+							rel="noreferrer">May 2022 Patch 11</a
+						>
 					</div>
 				</li>
 				<li>
@@ -62,7 +69,12 @@
 					<div>
 						Sourced from Proxy API itself by calling <code>/qps/about/about/openapi</code> endpoint
 						and its based on QSEoW
-						<span class="qs-version">May 2022 Patch 11</span>
+						<a
+							href="https://github.com/countnazgul/download-qlik-saas-api-definitions/tree/main/data"
+							target="_blank"
+							title="GitHub Repo"
+							rel="noreferrer">May 2022 Patch 11</a
+						>
 					</div>
 				</li>
 			</ul>
@@ -179,11 +191,6 @@
 
 	a {
 		text-decoration: underline dotted;
-		color: #00ff86;
-	}
-
-	.qs-version {
-		font-weight: bold;
 		color: #00ff86;
 	}
 </style>
