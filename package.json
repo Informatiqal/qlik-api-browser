@@ -1,6 +1,6 @@
 {
 	"name": "qlik-api-browser",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -17,6 +17,7 @@
 		"prettier": "^2.8.1",
 		"prettier-plugin-svelte": "^2.9.0",
 		"svelte": "^3.55.0",
+		"svelte-meta-tags": "^2.6.4",
 		"vite": "^4.0.3"
 	},
 	"type": "module",
