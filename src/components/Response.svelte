@@ -28,14 +28,20 @@
 			});
 		}
 
+		if (content?.schema?.['$ref']) {
+			openModal(Modal, {
+				ref: content.schema['$ref']
+					.replace('#/components/schemas/', '')
+					.replace('#/definitions/', ''),
+				modalsCount: activeModal
+			});
+		}
+
 		if (data.schema?.enum) {
 			openModal(EnumModal, {
 				// ref: `${content.name}`,
 				definition: definition
 				// modalsCount: activeModal
-				// onOpenAnother: (ref1) => {
-				// 	handleClick(ref1);
-				// }
 			});
 		}
 	}
@@ -59,24 +65,6 @@
 		{#if data.description}
 			&nbsp;{data.description}
 		{/if}
-	</div>
-
-	<div
-		on:click={() => handleClick()}
-		on:keydown={() => handleClick()}
-		class:definition={data.schema?.['$ref'] ||
-			data.schema?.enum ||
-			data.schema?.items?.enum ||
-			data.schema?.items?.['$ref']}
-	>
-		{data.schema?.['$ref']
-			? data.schema['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', '')
-			: ''}
-		{data.schema?.type == 'array' && data.schema?.items['$ref']
-			? `array of ${data.schema.items['$ref']
-					.replace('#/components/schemas/', '')
-					.replace('#/definitions/', '')}`
-			: ''}
 	</div>
 
 	<div>
@@ -103,6 +91,24 @@
 		{:else}
 			<div />
 		{/if}
+	</div>
+
+	<div
+		on:click={() => handleClick()}
+		on:keydown={() => handleClick()}
+		class:definition={data.schema?.['$ref'] ||
+			data.schema?.enum ||
+			data.schema?.items?.enum ||
+			data.schema?.items?.['$ref']}
+	>
+		{data.schema?.['$ref']
+			? data.schema['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', '')
+			: ''}
+		{data.schema?.type == 'array' && data.schema?.items['$ref']
+			? `array of ${data.schema.items['$ref']
+					.replace('#/components/schemas/', '')
+					.replace('#/definitions/', '')}`
+			: ''}
 	</div>
 
 	{#if data.content && content.schema}
