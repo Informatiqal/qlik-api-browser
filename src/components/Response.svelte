@@ -8,34 +8,40 @@
 	const data = response[1];
 	const content = data.content ? data.content[Object.keys(data.content)[0]] : undefined;
 
-	// console.log(content.schema);
-
 	// import Modal from '../DefinitionModal.svelte';
 	// import { getDefinitionData } from '../../data';
 
 	$: activeModal = $modals.length;
 
 	function handleClick() {
-		if (content.schema?.['$ref']) {
+		if (data.schema?.['$ref'] || data.schema?.type == 'array') {
+			openModal(Modal, {
+				ref:
+					data.schema?.type == 'array' && data.schema?.items['$ref']
+						? data.schema.items['$ref']
+								.replace('#/components/schemas/', '')
+								.replace('#/definitions/', '')
+						: data.schema['$ref']
+								.replace('#/components/schemas/', '')
+								.replace('#/definitions/', ''),
+				modalsCount: activeModal
+			});
+		}
+
+		if (content?.schema?.['$ref']) {
 			openModal(Modal, {
 				ref: content.schema['$ref']
 					.replace('#/components/schemas/', '')
 					.replace('#/definitions/', ''),
 				modalsCount: activeModal
-				// onOpenAnother: (ref1) => {
-				// 	handleClick(ref1);
-				// }
 			});
 		}
 
-		if (content.schema?.enum) {
+		if (data.schema?.enum) {
 			openModal(EnumModal, {
 				// ref: `${content.name}`,
 				definition: definition
 				// modalsCount: activeModal
-				// onOpenAnother: (ref1) => {
-				// 	handleClick(ref1);
-				// }
 			});
 		}
 	}
@@ -87,6 +93,24 @@
 		{/if}
 	</div>
 
+	<div
+		on:click={() => handleClick()}
+		on:keydown={() => handleClick()}
+		class:definition={data.schema?.['$ref'] ||
+			data.schema?.enum ||
+			data.schema?.items?.enum ||
+			data.schema?.items?.['$ref']}
+	>
+		{data.schema?.['$ref']
+			? data.schema['$ref'].replace('#/components/schemas/', '').replace('#/definitions/', '')
+			: ''}
+		{data.schema?.type == 'array' && data.schema?.items['$ref']
+			? `array of ${data.schema.items['$ref']
+					.replace('#/components/schemas/', '')
+					.replace('#/definitions/', '')}`
+			: ''}
+	</div>
+
 	{#if data.content && content.schema}
 		{#if content.schema && content.schema['$ref']}
 			<!-- <div
@@ -129,6 +153,11 @@
           </span>
         </div>
       {/if} -->
+
+		<!-- {#if data.schema} -->
+		<!-- oooooooooooo -->
+		<!-- {data.schema["$ref"]} -->
+		<!-- {/if} -->
 	{:else}
 		<div />
 	{/if}
