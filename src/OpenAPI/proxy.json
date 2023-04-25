@@ -4,7 +4,7 @@
         "title": "Open API specification for Proxy Main API",
         "version": "38.11.0"
     },
-    "host": "sense-apr-2019:4243",
+    "host": "qlik-sense:4243",
     "basePath": "/qps",
     "paths": {
         "/{virtualproxy}/session": {

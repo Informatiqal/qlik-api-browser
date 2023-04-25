@@ -59,7 +59,7 @@
 							href="https://github.com/countnazgul/download-qlik-saas-api-definitions/tree/main/data"
 							target="_blank"
 							title="GitHub Repo"
-							rel="noreferrer">May 2022 Patch 11</a
+							rel="noreferrer">November 2022 Patch 2</a
 						>
 					</div>
 				</li>
@@ -73,7 +73,7 @@
 							href="https://github.com/countnazgul/download-qlik-saas-api-definitions/tree/main/data"
 							target="_blank"
 							title="GitHub Repo"
-							rel="noreferrer">May 2022 Patch 11</a
+							rel="noreferrer">November 2022 Patch 2</a
 						>
 					</div>
 				</li>
