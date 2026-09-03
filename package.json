@@ -23,7 +23,7 @@
 	"type": "module",
 	"dependencies": {
 		"ninja-keys": "^1.2.2",
-		"svelte-modals": "^1.2.1",
+		"svelte-modals": "^2.0.0",
 		"svelte-preprocess": "^5.0.3"
 	}
 }
